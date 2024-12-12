@@ -25,12 +25,83 @@ const addProduct = async (req, res) => {
     console.log(product);
     await product.save()
     res.send({
+        success: 1,
         id: product.id,
         Name: product.Name,
         Image: product.Image
     })
 }
 
+const todayDealHome = async (req, res) => {
+    const products = await Product.find({ Old_price: { $ne: null } })
+    const shuffleArray = (array, count) => {
+        const filteredArray = array.filter(item => item.Items_left < 50);
+
+        const shuffled = [...filteredArray];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        return shuffled.slice(0, count);
+    };
+
+    const shuffledItems = shuffleArray(products, 11);
+    res.json(shuffledItems)
+}
+
+const recentlyAddedHome = async (req, res) => {
+    const products = await Product.find({})
+    const productNew = products.slice(-11)
+    res.json(productNew)
+}
+
+const reommendedHome = async (req, res) => {
+    const products = await Product.find({ Old_price: { $ne: null } })
+    const shuffleArray = (array, count) => {
+        const filteredArray = array.filter(item => item.Items_left < 50);
+
+        const shuffled = [...filteredArray];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        return shuffled.slice(0, count);
+    };
+
+    const shuffledItems = shuffleArray(products, 11);
+    res.json(shuffledItems)
+}
+
+const allproducts = async (req, res) => {
+    const product = await Product.find({})
+
+    const shuffleArray = (array) => {
+        let shuffled = [...array]
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+        }
+        return shuffled
+    }
+    const shuffledItems = shuffleArray(product)
+    res.send(shuffledItems)
+}
+
+const update = async (req, res) => {
+    const product = await Product.updateMany(
+        { Category: "Phone" },
+        { $set: { Category: "Phone & Accessories" } }
+    )
+    res.json(product)
+}
+
 module.exports = {
-    addProduct
+    addProduct,
+    recentlyAddedHome,
+    reommendedHome,
+    todayDealHome,
+    update,
+    allproducts
 }

@@ -11,7 +11,7 @@ const AddProduct = () => {
         New_price: "",
         Old_price: "",
         Image: image,
-        Category: "Phone",
+        Category: "Phone & Accessories",
         Mini_Category: "",
         Sub_Category: "Mobile",
         Items_left: "",
@@ -70,7 +70,7 @@ const AddProduct = () => {
                     New_price: "",
                     Old_price: "",
                     Image: image,
-                    Category: "Phone",
+                    Category: "Phone & Accessories",
                     Mini_Category: "",
                     Sub_Category: "Mobile",
                     Items_left: "",
@@ -113,16 +113,16 @@ const AddProduct = () => {
                 <div className='w-full text-[#7b7b7b] text-[18px]'>
                     <p>Category</p>
                     <select value={formData.Category} onChange={handleChange} name="Category" className='h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
-                        <option value="Phone">Phone</option>
+                        <option value="Phone & Accessories">Phone & Accessories</option>
                         <option value="Fashion">Fashion</option>
-                        <option value="Drinks & Groceries">Drinks&Groceries</option>
+                        <option value="Drinks & Groceries">Drinks & Groceries</option>
                         <option value="Gaming">Gaming</option>
                         <option value="Appliances">Appliances</option>
                     </select>
                 </div>
                 <div className='w-full text-[#7b7b7b] text-[18px]'>
                     <p>Sub Category</p>
-                    <select value={formData.Sub_Category} onChange={handleChange} name="Category" className='h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
+                    <select value={formData.Sub_Category} onChange={handleChange} name="Sub_Category" className='h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
                         <option value="Mobile">Mobile</option>
                         <option value="Tablet">Tablet</option>
                         <option value="Accessories">Accessories</option>
@@ -131,7 +131,7 @@ const AddProduct = () => {
                         <option value="Kids">Kids</option>
                         <option value="Alcohol">Alcohol</option>
                         <option value="Beverages">Beverages</option>
-                        <option value="Soft_drink">Soft_drink</option>
+                        <option value="Soft_drink">Soft Drink</option>
                         <option value="PlayStation">PlayStation</option>
                         <option value="XBox">XBox</option>
                         <option value="Small">Small</option>
@@ -142,7 +142,7 @@ const AddProduct = () => {
             <div className='flex gap-10'>
                 <div className='w-full text-[#7b7b7b] text-[17px]'>
                     <p>Mini Category</p>
-                    <select value={formData.Mini_Category} onChange={handleChange} name="Category" className='h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
+                    <select value={formData.Mini_Category} onChange={handleChange} name="Mini_Category" className='h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
                         <option value=""></option>
                         <option value="Wear">Wear</option>
                         <option value="Shoe">Shoe</option>

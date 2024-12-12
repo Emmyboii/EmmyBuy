@@ -3,17 +3,17 @@
   "name": "EMMYBUY",
   "icons": [
     {
-      "src": "logo4.jpg",
+      "src": "logo2.jpg",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/jpg"
     },
     {
-      "src": "logo4.jpg",
+      "src": "logo2.jpg",
       "type": "image/jpg",
       "sizes": "192x192"
     },
     {
-      "src": "logo4.jpg",
+      "src": "logo2.jpg",
       "type": "image/jpg",
       "sizes": "512x512"
     }

@@ -1,4 +1,4 @@
-import BrandLogo from '../assets/Logo1.jpg';
+import BrandLogo from '../assets/Logo3.jpg';
 import navprofile from '../assets/nav-profile.svg';
 
 const Navbar = () => {
