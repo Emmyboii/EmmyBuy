@@ -13,19 +13,19 @@ const PhoneDeal = () => {
                 <p>Phone Deals</p>
             </div>
             <div className='bg-white px-3 grid grid-cols-5 gap-[10px]'>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center py-3'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center py-3'>
                     <img src={Samsung} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md py-3'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md py-3'>
                     <img src={Apple} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md py-3'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md py-3'>
                     <img src={Tecno} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md py-3'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md py-3'>
                     <img src={Ipad} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md py-3'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md py-3'>
                     <img src={Infinix} className='rounded-md' alt="" />
                 </div>
             </div>

@@ -13,9 +13,6 @@ app.use(express.json())
 app.use(cors())
 connectDb()
 
-app.use(cors({
-    origin: 'https://emmybuy.vercel.app'
-}));
 
 const storage = multer.diskStorage({
     destination: './upload/images',
@@ -33,7 +30,7 @@ app.use('/images', express.static('upload/images'))
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `https://www.emmybuy.com/images/${req.file.filename}`
+        image_url: `http://localhost:${port}/images/${req.file.filename}`
     })
 })
 const productRoutes = require('./routes/productRoutes')
@@ -43,5 +40,5 @@ app.use("/product", productRoutes)
 app.use("/user", userRoutes)
 
 app.listen(port, () => {
-    console.log(`Server Running on https://emmybuy.vercel.app`);
+    console.log(`Server Running on port ${port}`);
 })

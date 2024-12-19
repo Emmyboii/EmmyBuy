@@ -1,6 +1,6 @@
 import React from 'react'
-import UserAcctNavbar from '../Components/UserAcctNavbar'
-import UserAcctSidebar from '../Components/UserAcctSidebar'
+import UserAcctNavbar from '../Components/UserAccountDeatails/UserAcctNavbar'
+import UserAcctSidebar from '../Components/UserAccountDeatails/UserAcctSidebar'
 import UserAccountDetails from '../Components/UserAccountDeatails/UserAccountDetails'
 
 const UserAccount = () => {

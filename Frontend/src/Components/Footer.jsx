@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Logo from '../assets/Logo3.jpg';
 import { BsFacebook, BsYoutube } from "react-icons/bs";
 import { AiFillTwitterCircle } from "react-icons/ai";
@@ -8,7 +9,9 @@ const Footer = () => {
     return (
         <div className='bg-black grid grid-cols-4 text-[#cac9c9] py-5 h-[300px] px-5'>
             <div className='col-span-1'>
-                <img className='' src={Logo} width={200} alt="" />
+                <Link to='/'>
+                    <img onClick={() => window.scroll(0, 0)} className='' src={Logo} width={200} alt="" />
+                </Link>
             </div>
             <div className='col-span-3 grid grid-cols-4 gap-[10px]'>
                 <div>

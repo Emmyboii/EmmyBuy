@@ -17,34 +17,34 @@ const OfficialStore = () => {
                 <p>Official Stores</p>
             </div>
             <div className='bg-white px-3 grid grid-cols-5 py-[10px] gap-[10px]'>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center'>
                     <img src={Samsung} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
                     <img src={Lenovo} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
                     <img src={Infinix} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
                     <img src={Tecno} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
                     <img src={Apple} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
                     <img src={Itel} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center'>
                     <img src={Samsung2} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
                     <img src={Itel2} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
                     <img src={Oraimo} className='rounded-md' alt="" />
                 </div>
-                <div className='flex flex-col items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
+                <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center rounded-md'>
                     <img src={Tecno2} className='rounded-md' alt="" />
                 </div>
             </div>

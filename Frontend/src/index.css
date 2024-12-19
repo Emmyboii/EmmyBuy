@@ -10,3 +10,8 @@ body {
     scroll-behavior: smooth;
     margin: 0;
 }
+
+.button-transition:disabled{
+    background-color: #999;
+    cursor: not-allowed;
+}

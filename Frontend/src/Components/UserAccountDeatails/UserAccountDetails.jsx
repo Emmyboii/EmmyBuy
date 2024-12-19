@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import AcctInfo from './AcctInfo'
 import DeliveryAddress from './DeliveryAddress'
 import SavedItems from './SavedItems'
+import DeleteAcct from './DeleteAcct'
 
 const UserAccountDetails = () => {
     return (
@@ -11,6 +12,7 @@ const UserAccountDetails = () => {
                 <Route path='/acct_info' element={<AcctInfo />} />
                 <Route path='/address' element={<DeliveryAddress />} />
                 <Route path='/saved_items' element={<SavedItems />} />
+                <Route path='/delete_acct' element={<DeleteAcct />} />
             </Routes>
         </div>
     )

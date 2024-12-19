@@ -35,39 +35,47 @@ const signUp = async (req, res) => {
     }
     res.json({
         success: true,
-        message: "Registration Successful"
+        message: "Registration Successful. Click on OK to Continue"
     })
 
 }
 
 const login = async (req, res) => {
-    const user = await User.findOne({ email: req.body.email })
-
-    if (!user) {
-        res.json({
-            success: false,
-            error: "No User with this Email address was found"
-        })
-    } else {
-        const comparePassword = await bcrypt.compare(req.body.password, user.password)
-        if (comparePassword) {
-            const data = {
-                user: {
-                    id: user.id
-                }
-            }
-            const token = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET)
-            res.json({
-                success: true,
-                message: "Login Successful",
-                token
-            })
-        } else {
-            res.json({
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            return res.status(400).json({
                 success: false,
-                error: "Incorrect Password"
-            })
+                error: "No user found for this email/password. Check the email or password again."
+            });
         }
+
+        const comparePassword = await bcrypt.compare(req.body.password, user.password);
+        if (!comparePassword) {
+            return res.status(400).json({
+                success: false,
+                error: "No user found for this email/password. Check the email or password again."
+            });
+        }
+
+        const data = {
+            user: {
+                id: user.id
+            }
+        };
+        const token = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET);
+
+        res.status(200).json({
+            success: true,
+            message: "Login Successful",
+            token
+        });
+    } catch (error) {
+        console.error('Login error:', error.message);
+        res.status(500).json({
+            success: false,
+            error: "An error occurred during login. Please try again later."
+        });
     }
 }
 
@@ -97,6 +105,14 @@ const getUsers = async (req, res) => {
     res.json(currentUser)
 }
 
+const deleteUsers = async (req, res) => {
+    await User.findByIdAndDelete(req.user.id);
+    res.status(200).json({
+        success: true,
+        message: 'Your Account has been deleted successfully!'
+    });
+}
+
 const addToCart = async (req, res) => {
     let userCart = await User.findOne({ _id: req.user.id })
     userCart.cartData[req.body.itemId] += 1
@@ -108,6 +124,14 @@ const removeFromCart = async (req, res) => {
     let userCart = await User.findOne({ _id: req.user.id })
     if (userCart.cartData[req.body.itemId] > 0)
         userCart.cartData[req.body.itemId] -= 1
+    await User.findOneAndUpdate({ _id: req.user.id }, { cartData: userCart.cartData })
+    res.send("Removed")
+}
+
+const removeAllCart = async (req, res) => {
+    let userCart = await User.findOne({ _id: req.user.id })
+    if (userCart.cartData[req.body.itemId] > 0)
+        userCart.cartData[req.body.itemId] = 0
     await User.findOneAndUpdate({ _id: req.user.id }, { cartData: userCart.cartData })
     res.send("Removed")
 }
@@ -132,14 +156,59 @@ const getCart = async (req, res) => {
     res.json(userCart.cartData)
 }
 
+const getSavedItems = async (req, res) => {
+    const userId = req.user.id; // Get user from token
+
+    // Find the user and return the cart data
+    const user = await User.findOne({ _id: userId });
+    res.json(user.savedItem); // Return the user's cart data
+}
+
+const syncGuestCart  = async (req, res) => {
+    const userId = req.user.id; // Get user from token
+    const guestItems = req.body.items; // Guest items from request
+
+    // Find the logged-in user
+    const user = await User.findOne({ _id: userId });
+
+    // Merge guest items into the user's cartData
+    for (let itemId in guestItems) {
+        user.cartData[itemId] = (user.cartData[itemId] || 0) + guestItems[itemId];
+    }
+
+    // Save updated cart data
+    await user.save();
+
+    // Respond with success
+    res.json({ success: true });
+}
+
+const syncGuestSavedItems = async (req, res) => {
+    const userId = req.user.id; // Get user from token
+    const guestSavedItems = req.body.items; // Guest saved items from request
+  
+    const user = await User.findOne({ _id: userId });
+    for (let itemId in guestSavedItems) {
+      user.savedItems[itemId] = (user.savedItems[itemId] || 0) + guestSavedItems[itemId];
+    }
+  
+    await user.save();
+    res.json({ success: true });
+  };
+
 module.exports = {
     signUp,
     login,
     verifyUser,
     getUsers,
+    deleteUsers,
     addToCart,
     removeFromCart,
+    removeAllCart,
     addSavedItem,
     removeSavedItem,
-    getCart
+    getCart,
+    getSavedItems,
+    syncGuestCart,
+    syncGuestSavedItems
 }

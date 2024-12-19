@@ -1,15 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { ShopContext } from '../../Context/ShopContext'
 
 const UserAcctSidebar = () => {
 
-    const signOut = () => {
-        localStorage.removeItem('token')
-        localStorage.removeItem('cartItem')
-        localStorage.removeItem('savedItem')
-        localStorage.removeItem('previousPage')
-        window.location.replace('/')
-    }
+    const { onClickSignOut } = useContext(ShopContext)
+
     return (
         <div className='w-[340px] h-[700px] rounded-lg bg-white ml-[70px] my-9 flex flex-col'>
             <div className='flex flex-col gap-1 px-4 py-4'>
@@ -45,7 +41,7 @@ const UserAcctSidebar = () => {
                     <p>Delete Account</p>
                 </Link>
             </div>
-            <button onClick={signOut} className='bg-red-500 text-white text-[18px] w-[100px] mx-auto mt-10 py-2 rounded-lg'>Sign Out</button>
+            <button onClick={onClickSignOut} className='bg-red-500 text-white text-[18px] w-[100px] mx-auto mt-10 py-2 rounded-lg'>Sign Out</button>
         </div>
     )
 }

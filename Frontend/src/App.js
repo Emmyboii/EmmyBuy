@@ -12,8 +12,11 @@ import Footer from './Components/Footer';
 import ProductDisplay from './Pages/ProductDisplay';
 import Cart from './Pages/Cart';
 import UserAccount from './Pages/UserAccount';
-import SignUp from './Components/SignUp';
-import Login from './Components/Login';
+import SignUp from './Pages/SignUp';
+import Login from './Pages/Login';
+import ConfirmSignOut from './Components/ConfirmSignOut';
+import ConfirmDeleteAccount from './Components/ConfirmDeleteAccount';
+import SuccessfulDelete from './Components/SuccessfulDelete';
 
 function App() {
   return (
@@ -33,15 +36,19 @@ function App() {
 
           <Route path='/cart' element={<Cart />} />
 
-          <Route path='/account' element={<UserAccount />} >
+          <Route path='customer/account' element={<UserAccount />} >
             <Route path='acct_info' element={<UserAccount />} />
             <Route path='address' element={<UserAccount />} />
             <Route path='saved_items' element={<UserAccount />} />
+            <Route path='delete_acct' element={<UserAccount />} />
           </Route>
 
           <Route path='/signUp' element={<SignUp />} />
           <Route path='/login' element={<Login />} />
         </Routes>
+        <ConfirmSignOut />
+        <ConfirmDeleteAccount />
+        <SuccessfulDelete />
         <Footer />
       </BrowserRouter>
     </div>

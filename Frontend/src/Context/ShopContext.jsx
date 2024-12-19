@@ -22,6 +22,16 @@ const getDefaultSavedItem = () => {
 const ShopContextProvider = (props) => {
 
   const [allProduct, setAllProduct] = useState([])
+  const [confirmSignOut, setConfirmSignOut] = useState(false)
+  const [confirmDeleteAcct, setConfirmDeleteAcct] = useState(false)
+
+  const onClickSignOut = () => {
+    setConfirmSignOut(!confirmSignOut)
+  }
+
+  const onClickDeleteAcct = () => {
+    setConfirmDeleteAcct(!confirmDeleteAcct)
+  }
 
   const [cartItem, setCartItem] = useState(() => {
     const savedCart = localStorage.getItem('cartItem');
@@ -33,13 +43,23 @@ const ShopContextProvider = (props) => {
     return savedItems ? JSON.parse(savedItems) : getDefaultSavedItem();
   })
 
+  const [loggedOutCartItem, setLoggedOutCartItem] = useState(() => {
+    const savedCart = localStorage.getItem('loggedOutCartItem');
+    return savedCart ? JSON.parse(savedCart) : getDefaultCart();
+  })
+
+  const [loggedOutSavedItem, setLoggedOutSavedItem] = useState(() => {
+    const savedItems = localStorage.getItem('loggedOutSavedItem');
+    return savedItems ? JSON.parse(savedItems) : getDefaultSavedItem();
+  })
+
   useEffect(() => {
-    fetch('https://emmybuy.vercel.app/product/allproducts')
+    fetch('http://localhost:5000/product/allproducts')
       .then((res) => res.json())
       .then((data) => setAllProduct(data))
 
     if (localStorage.getItem('token')) {
-      fetch('https://emmybuy.vercel.app/user/getCart', {
+      fetch('http://localhost:5000/user/getCart', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -49,12 +69,14 @@ const ShopContextProvider = (props) => {
       }).then((res) => res.json())
         .then((data) => setCartItem(data))
     }
+
   }, [])
+
 
   const addToCart = (itemId) => {
     setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
     if (localStorage.getItem('token')) {
-      fetch('https://emmybuy.vercel.app/user/addToCart', {
+      fetch('http://localhost:5000/user/addToCart', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -63,15 +85,15 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ "itemId": itemId }),
       }).then((res) => res.json())
-      // .then((data) => setCartItem((prev) => ({ ...prev, ...data })))
+    } else {
+      setLoggedOutCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
     }
   }
 
   const removeFromCart = (itemId) => {
-    if ([itemId] > 0)
-      setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }))
+    setCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }))
     if (localStorage.getItem('token')) {
-      fetch('https://emmybuy.vercel.app/user/removeFromCart', {
+      fetch('http://localhost:5000/user/removeFromCart', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -80,18 +102,32 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ "itemId": itemId }),
       }).then((res) => res.json())
-      // .then((data) => setCartItem((prev) => ({ ...prev, ...data })))
+    } else {
+      setLoggedOutCartItem((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }))
     }
   }
+
   const removeAllCart = (itemId) => {
-    if ([itemId] > 0)
-      setCartItem((prev) => ({ ...prev, [itemId]: 0 }))
+    setCartItem((prev) => ({ ...prev, [itemId]: 0 }))
+    if (localStorage.getItem('token')) {
+      fetch('http://localhost:5000/user/removeAllCart', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'token': `${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "itemId": itemId }),
+      }).then((res) => res.json())
+    } else {
+      setLoggedOutCartItem((prev) => ({ ...prev, [itemId]: 0 }))
+    }
   }
 
   const saveItem = (itemId) => {
     setSavedItem((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
     if (localStorage.getItem('token')) {
-      fetch('https://emmybuy.vercel.app/user/addSavedItem', {
+      fetch('http://localhost:5000/user/addSavedItem', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -100,14 +136,14 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ "itemId": itemId }),
       }).then((res) => res.json())
-      // .then((data) => setSavedItem((prev) => ({ ...prev, ...data })))
+    } else {
+      setLoggedOutSavedItem((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
     }
   }
   const removeSaveItem = (itemId) => {
-    if ([itemId] > 0)
-      setSavedItem((prev) => ({ ...prev, [itemId]: 0 }))
+    setSavedItem((prev) => ({ ...prev, [itemId]: 0 }))
     if (localStorage.getItem('token')) {
-      fetch('https://emmybuy.vercel.app/user/removeSavedItem', {
+      fetch('http://localhost:5000/user/removeSavedItem', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -116,7 +152,8 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ "itemId": itemId }),
       }).then((res) => res.json())
-      // .then((data) => setSavedItem((prev) => ({ ...prev, ...data })))
+    } else {
+      setLoggedOutSavedItem((prev) => ({ ...prev, [itemId]: 0 }))
     }
   }
 
@@ -151,7 +188,17 @@ const ShopContextProvider = (props) => {
     localStorage.setItem('savedItem', JSON.stringify(savedItem));
   }, [savedItem]);
 
-  const contextValue = { getTotalValue, getTotalCartItem, allProduct, cartItem, savedItem, setAllProduct, addToCart, removeFromCart, removeAllCart, saveItem, removeSaveItem, }
+  useEffect(() => {
+    // Save cart to local storage on cart updates
+    localStorage.setItem('loggedOutCartItem', JSON.stringify(loggedOutCartItem));
+  }, [loggedOutCartItem]);
+
+  useEffect(() => {
+    // Save item to local storage on item updates
+    localStorage.setItem('loggedOutSavedItem', JSON.stringify(loggedOutSavedItem));
+  }, [loggedOutSavedItem]);
+
+  const contextValue = { confirmSignOut, confirmDeleteAcct, onClickSignOut, onClickDeleteAcct, getTotalValue, getTotalCartItem, allProduct, cartItem, savedItem, setAllProduct, addToCart, removeFromCart, removeAllCart, saveItem, removeSaveItem, }
 
   return (
     <ShopContext.Provider value={contextValue}>

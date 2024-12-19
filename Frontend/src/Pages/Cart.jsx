@@ -1,12 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import cart from '../assets/cart.svg';
 import { Link } from 'react-router-dom'
 import { ShopContext } from '../Context/ShopContext'
 import { RxCross2 } from "react-icons/rx";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 const Cart = () => {
 
     const { cartItem, addToCart, getTotalValue, removeFromCart, removeAllCart, allProduct } = useContext(ShopContext)
+
+    useEffect(() => {
+        const currentPage = window.location.pathname; // Get the current path
+        localStorage.setItem('previousPage', currentPage); // Save it in localStorage
+    }, [])
+
+    const navigateToLogin = () => {
+        const currentPage = window.location.pathname; // Get the current path
+        localStorage.setItem('previousPage', currentPage); // Save it in localStorage
+        window.location.replace('/login'); // Navigate to the login page
+    };
+
 
     const hasItemsInCart = allProduct.some((item) => cartItem[item.id] > 0);
 
@@ -24,12 +37,6 @@ const Cart = () => {
             </div>
         );
     }
-
-    const navigateToLogin = () => {
-        const currentPage = window.location.pathname; // Get the current path
-        localStorage.setItem('previousPage', currentPage); // Save it in localStorage
-        window.location.replace('/login'); // Navigate to the login page
-    };
 
     return (
         <div className='bg-white px-5 rounded-lg'>
@@ -54,10 +61,17 @@ const Cart = () => {
 
                             <p className='col-span-2 text-start'>{item.Name}</p>
                             <p>{item.New_price}</p>
-                            <div className='flex ml-14'>
-                                <button className='p-2 border-2 border-r-0 border-black/50 hover:bg-black/10' onClick={() => removeFromCart(item.id)}>-</button>
-                                <p className='p-2 border-2 border-black/50'>{cartItem[item.id]}</p>
-                                <button className='p-2 border-2 border-l-0 border-black/50 hover:bg-black/10' onClick={() => addToCart(item.id)}>+</button>
+                            <div className='flex ml-10 gap-2'>
+                                <button
+                                    onClick={() => {
+                                        if (cartItem[item.id] <= 1) return;
+                                        removeFromCart(item.id)
+                                    }}
+                                    className={cartItem[item.id] > 1 ? 'size-[40px] flex items-center justify-center text-[27px] text-white bg-orange-500 hover:bg-orange-800 rounded-md' : 'size-[40px] flex items-center justify-center text-[27px] text-white bg-orange-500 opacity-50 rounded-md'}>
+                                    -
+                                </button>
+                                <p className='size-[40px] flex items-center justify-center border-2'>{cartItem[item.id]}</p>
+                                <button className='size-[40px] flex items-center justify-center text-[27px] text-white bg-orange-500 border-black/50 hover:bg-orange-600 rounded-md' onClick={() => addToCart(item.id)}>+</button>
                             </div>
                             <p>{item.New_price * cartItem[item.id]}</p>
                             <button className='ml-20 mr-[85px] hover:bg-black/20 rounded-full' onClick={() => removeAllCart(item.id)}><RxCross2 /></button>
@@ -73,7 +87,7 @@ const Cart = () => {
                     <div>
                         <div className="flex justify-between p-2">
                             <p>Subtotal</p>
-                            <p>${getTotalValue()}</p>
+                            <p className='flex items-center'><TbCurrencyNaira className='text-[21px]' />{getTotalValue()}</p>
                         </div>
                         <hr />
                         <div className="flex justify-between p-2">
@@ -83,7 +97,7 @@ const Cart = () => {
                         <hr />
                         <div className="flex justify-between p-2 font-bold">
                             <h3>Total</h3>
-                            <h3>${getTotalValue()}</h3>
+                            <h3 className='flex items-center'><TbCurrencyNaira className='text-[21px]' />{getTotalValue()}</h3>
                         </div>
                     </div>
                     {localStorage.getItem('token') ? (

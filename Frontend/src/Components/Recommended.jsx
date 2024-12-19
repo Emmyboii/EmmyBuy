@@ -72,7 +72,7 @@ const Recommended = () => {
             setRecommend(JSON.parse(cachedData));
         } else {
 
-            fetch('https://emmybuy.vercel.app/product/reommendedHome')
+            fetch('http://localhost:5000/product/reommendedHome')
                 .then((res) => res.json())
                 .then((data) => {
                     setRecommend(data)
@@ -107,10 +107,10 @@ const Recommended = () => {
         <div>
             <div className="flex items-center justify-between bg-black text-white px-10 py-4 text-[25px] font-semibold">
                 <p>Recommended For You</p>
-                <p className="flex gap-1 items-center">
-                    <span>View more</span>
+                <p className="flex gap-1 items-center cursor-pointer">
+                    <span className='text-[13px]'>VIEW MORE</span>
                     <span>
-                        <IoIosArrowForward className='mt-1' />
+                        <IoIosArrowForward className='mt-[2px] text-[15px]' />
                     </span>
                 </p>
             </div>
