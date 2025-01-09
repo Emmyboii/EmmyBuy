@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { ShopContext } from '../Context/ShopContext'
 import { Link } from 'react-router-dom'
 import { IoMdHeart } from "react-icons/io";
@@ -6,18 +6,28 @@ import { TbCurrencyNaira } from "react-icons/tb";
 
 const HomeItems = (props) => {
 
-    const { saveItem, removeSaveItem } = useContext(ShopContext)
+    const { saveItem, removeSaveItem, setSavedModal, setSavedRemoveModal } = useContext(ShopContext)
 
 
     const [isClicked, setIsClicked] = useState(false);
 
+
     const handleClick = () => {
-        if (isClicked === false) {
-            setIsClicked(!isClicked);
-            saveItem(props.id)
-        } else if (isClicked === true) {
-            setIsClicked(!isClicked);
-            removeSaveItem(props.id)
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            localStorage.setItem('pendingSaveItem', props.id);
+            window.location.replace('/login')
+        } else {
+            if (isClicked === false) {
+                setIsClicked(true);
+                saveItem(props.id);
+                setSavedModal(true);
+            } else {
+                setIsClicked(false);
+                removeSaveItem(props.id);
+                setSavedRemoveModal(true);
+            }
         }
     };
 
@@ -25,18 +35,30 @@ const HomeItems = (props) => {
         window.scrollTo(0, 0);
     };
 
+    // Check after Login for Pending Save Item
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const pendingItemId = localStorage.getItem('pendingSaveItem');
+
+        if (token && pendingItemId) {
+            saveItem(pendingItemId);
+            setSavedModal(true);
+            localStorage.removeItem('pendingSaveItem');
+        }
+    }, [saveItem, setSavedModal]);
+
     if (props.Items_left < 50) {
         const maxItem = 50;
         const percentage = (props.Items_left / maxItem) * 100
         return (
-            <div className='w-[238px] p-2 bg-white relative'>
+            <div className='w-[240px] p-2 bg-white relative'>
                 <Link to={`/product/${props.id}`} onClick={handleProductClick}>
                     <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px]'>
                         <div className=''>
                             <img src={props.Image} alt={`${props.Name}`} className='w-full' />
                         </div>
                         <p className='my-3 line-clamp-[2]'>{props.Name}</p>
-                        <div className='flex gap-3 text-[18px] font-semibold'>
+                        <div className='flex gap-2 text-[18px] font-semibold'>
                             <p className='flex items-center'><TbCurrencyNaira className='text-[21px]' /> {props.New_price}</p>
                             {props.Old_price > 0 ? (
                                 <p className='line-through text-[#a19f9f] flex items-center font-medium'><TbCurrencyNaira className='text-[21px]' /> {props.Old_price}</p>
@@ -50,7 +72,7 @@ const HomeItems = (props) => {
                         </div>
                     </div>
                 </Link >
-                <IoMdHeart className={`absolute top-1 right-3 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'} hover:text-orange-400`}
+                <IoMdHeart className={`absolute top-1 right-4 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'} hover:text-orange-400`}
                     style={{
                         stroke: isClicked ? "orange" : "red",
                         strokeWidth: 16,
@@ -63,14 +85,14 @@ const HomeItems = (props) => {
         const maxItem = 150;
         const percentage = (props.Items_left / maxItem) * 100
         return (
-            <div className='w-[238px] p-2 bg-white relative'>
+            <div className='w-[240px] p-2 bg-white relative'>
                 <Link to={`/product/${props.id}`} onClick={handleProductClick}>
                     <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px]'>
                         <div className=''>
                             <img src={props.Image} alt={`${props.Name}`} className='w-full' />
                         </div>
                         <p className='my-3 line-clamp-[2]'>{props.Name}</p>
-                        <div className='flex gap-3 text-[18px] font-semibold'>
+                        <div className='flex gap-2 text-[18px] font-semibold'>
                             <p className='flex items-center'><TbCurrencyNaira className='text-[21px]' /> {props.New_price}</p>
                             {props.Old_price > 0 ? (
                                 <p className='line-through text-[#a19f9f] flex items-center font-medium'><TbCurrencyNaira className='text-[21px]' /> {props.Old_price}</p>
@@ -84,7 +106,7 @@ const HomeItems = (props) => {
                         </div>
                     </div>
                 </Link >
-                <IoMdHeart className={`absolute top-1 right-3 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'} hover:text-orange-400`}
+                <IoMdHeart className={`absolute top-1 right-4 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'} hover:text-orange-400`}
                     style={{
                         stroke: isClicked ? "orange" : "red",
                         strokeWidth: 16,

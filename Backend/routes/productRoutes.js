@@ -7,7 +7,10 @@ const {
     reommendedHome,
     todayDealHome,
     allproducts,
-    update
+    allproduct,
+    productById,
+    updateProduct,
+    deleteProduct
 } = require('../controllers/productController')
 
 
@@ -18,6 +21,9 @@ router.get("/todayDealHome", todayDealHome)
 router.get("/recentlyAddedHome", recentlyAddedHome)
 router.get("/reommendedHome", reommendedHome)
 router.get("/allproducts", allproducts)
-router.put("/update", update)
+router.post("/productById", productById)
+router.get("/allproduct", allproduct)
+router.post("/updateProduct", updateProduct)
+router.delete("/deleteProduct", deleteProduct)
 
 module.exports = router

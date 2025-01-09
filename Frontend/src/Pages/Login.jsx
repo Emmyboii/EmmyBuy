@@ -92,12 +92,12 @@ const Login = () => {
     return (
         <div className='w-full py-10'>
             <form onSubmit={OnLogin}>
-                <div className='w-[550px] bg-white rounded-lg m-auto'>
+                <div className='max-w-[550px] bg-white rounded-lg m-auto'>
                     <p className='text-[25px] font-semibold text-center p-3'>Log In to Continue</p>
                     <hr className='border border-black' />
                     <div className='w-full p-5 flex flex-col gap-4'>
                         {showModal && (
-                            <div className='bg-red-500 text-white p-2 rounded-md flex items-center justify-between'>
+                            <div className={status.type === 'error' ? 'bg-green-500 text-white p-2 rounded-md flex items-center justify-between' : 'bg-red-500 text-white p-2 rounded-md flex items-center justify-between'}>
                                 <p className='text-[17px] font-bold'>{status.message}</p>
                                 <IoMdWarning className='text-[25px]' />
                             </div>

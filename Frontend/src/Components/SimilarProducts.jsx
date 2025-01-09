@@ -19,9 +19,9 @@ const SimilarProducts = () => {
     }, [allProduct, product, productID]);
 
     return (
-        <div className='mx-7'>
+        <div className='mx-4'>
             <p className='mb-2 text-[25px] font-bold'>You may also like</p>
-            <div className=' bg-white grid grid-cols-5 mb-4'>
+            <div className='bg-white grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-4'>
                 {randomItems
                     .map((item, i) => (
                         <SimilarItems

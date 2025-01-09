@@ -7,15 +7,15 @@ import { FaInstagramSquare } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <div className='bg-black grid grid-cols-4 text-[#cac9c9] py-5 h-[300px] px-5'>
-            <div className='col-span-1'>
+        <div className='bg-black grid sd:grid-cols-4 text-[#cac9c9] py-5 px-5'>
+            <div className='col-span-1 mb-3'>
                 <Link to='/'>
                     <img onClick={() => window.scroll(0, 0)} className='' src={Logo} width={200} alt="" />
                 </Link>
             </div>
-            <div className='col-span-3 grid grid-cols-4 gap-[10px]'>
+            <div className='sd:col-span-3 grid md:grid-cols-4 mm:grid-cols-3 sr:grid-cols-2 gap-[10px] sr:text-start text-center'>
                 <div>
-                    <p className='font-bold text-[18px]'>ABOUT EMMYBUY</p>
+                    <p className='font-bold md:text-[18px]'>ABOUT EMMYBUY</p>
                     <ul>
                         <li>Contact Us</li>
                         <li>About Us</li>
@@ -25,7 +25,7 @@ const Footer = () => {
                     </ul>
                 </div>
                 <div>
-                    <p className='font-bold text-[18px]'>PAYMENTS</p>
+                    <p className='font-bold md:text-[18px]'>PAYMENTS</p>
                     <ul>
                         <li>EmmyPay</li>
                         <li>Wallet</li>
@@ -35,7 +35,7 @@ const Footer = () => {
                     </ul>
                 </div>
                 <div>
-                    <p className='font-bold text-[18px]'>MORE INFO</p>
+                    <p className='font-bold md:text-[18px]'>MORE INFO</p>
                     <ul>
                         <li>Track My Order</li>
                         <li>Privacy Policy</li>
@@ -44,8 +44,8 @@ const Footer = () => {
                     </ul>
                 </div>
                 <div>
-                    <p className='font-bold text-[18px]'>CONNECT WITH US</p>
-                    <ul className='flex gap-3 mt-1'>
+                    <p className='font-bold md:text-[18px] text-center'>CONNECT WITH US</p>
+                    <ul className='flex gap-3 mt-1 justify-center'>
                         <li className='text-[26px]'><BsFacebook /></li>
                         <li className='text-[26px]'><AiFillTwitterCircle /></li>
                         <li className='text-[26px]'><FaInstagramSquare /></li>

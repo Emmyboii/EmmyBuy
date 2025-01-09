@@ -32,6 +32,36 @@ const addProduct = async (req, res) => {
     })
 }
 
+const deleteProduct = async (req, res) => {
+    const products = await Product.findOneAndDelete({ id: req.body.id })
+    res.json(products)
+}
+
+const updateProduct = async (req, res) => {
+    const { id, Name, Old_price, New_price, Items_left, Image } = req.body;
+
+    try {
+        const updatedProduct = await Product.findOneAndUpdate(
+            { id: id },
+            {
+                $set: {
+                    Name: Name,
+                    New_price: New_price,
+                    Old_price: Old_price,
+                    Items_left: Items_left,
+                    Image: Image
+                }
+            },
+            { new: true }
+        )
+
+        res.status(200).json({ success: true, message: 'Product Updated Successfully', product: updatedProduct })
+    } catch (error) {
+        res.status(500).json({ message: "Error updating product", error });
+    }
+};
+
+
 const todayDealHome = async (req, res) => {
     const products = await Product.find({ Old_price: { $ne: null } })
     const shuffleArray = (array, count) => {
@@ -89,6 +119,19 @@ const allproducts = async (req, res) => {
     res.send(shuffledItems)
 }
 
+const allproduct = async (req, res) => {
+    const product = await Product.find({})
+    res.send(product)
+}
+
+const productById = async (req, res) => {
+    const product = await Product.findOne(
+        { id: req.body.id },
+        { Name: 1, Old_price: 1, New_price: 1, Items_left: 1, Image: 1 }
+    )
+    res.send(product)
+}
+
 const update = async (req, res) => {
     const product = await Product.updateMany(
         { Category: "Phone" },
@@ -103,5 +146,9 @@ module.exports = {
     reommendedHome,
     todayDealHome,
     update,
-    allproducts
+    allproducts,
+    allproduct,
+    productById,
+    deleteProduct,
+    updateProduct
 }

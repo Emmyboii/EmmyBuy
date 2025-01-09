@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -13,6 +13,7 @@ import {
     IoIosArrowForward,
     IoIosArrowBack,
 } from "react-icons/io";
+import { ShopContext } from '../Context/ShopContext';
 
 const CustomPrevArrow = ({ onClick, show }) => {
     if (show === false) return null
@@ -65,8 +66,8 @@ const HeroBanner = () => {
 
     const [hovered, setHovered] = useState(false);
 
-
-
+    const { allProduct, setResults } = useContext(ShopContext)
+    
     const settings = {
         infinite: true,
         fade: true,
@@ -92,22 +93,33 @@ const HeroBanner = () => {
         >
             <Slider {...settings}>
                 <div className='outline-none border-none'>
-                    <Link to='/'><img className="w-full h-[400px] cursor-pointer outline-none border-none" src={logo1} alt="Logo 1" /></Link>
+                    <Link to='/'><img className="w-full ms:h-[400px] h-[350px cursor-pointer outline-none border-none" src={logo1} alt="Logo 1" /></Link>
                 </div>
                 <div className='outline-none border-none'>
-                    <Link to='/allproducts'><img className="w-full h-[400px] cursor-pointer outline-none border-none" src={logo6} alt="Logo 6" /></Link>
+                    <Link to='/allproducts' >
+                        <img
+                            className="w-full ms:h-[400px] h-[350px cursor-pointer outline-none border-none"
+                            src={logo6}
+                            alt="Logo 6"
+                            onClick={() => {
+                                setResults(allProduct);
+                                localStorage.removeItem('query')
+                                localStorage.setItem('SearchResult', JSON.stringify(allProduct));
+                            }}
+                        />
+                    </Link>
                 </div>
                 <div className='outline-none border-none'>
-                    <Link to='/today-deal'><img className="w-full h-[400px] cursor-pointer outline-none border-none" src={logo5} alt="Logo 5" /></Link>
+                    <Link to='/today-deal'><img className="w-full ms:h-[400px] h-[350px cursor-pointer outline-none border-none" src={logo5} alt="Logo 5" /></Link>
                 </div>
                 <div className='outline-none border-none'>
-                    <Link to='/accesories'><img className="w-full h-[400px] cursor-pointer outline-none border-none" src={logo2} alt="Logo 2" /></Link>
+                    <Link to='/phone&accessories'><img className="w-full ms:h-[400px] h-[350px cursor-pointer outline-none border-none" src={logo2} alt="Logo 2" /></Link>
                 </div>
                 <div className='outline-none border-none'>
-                    <Link to='/fashion'><img className="w-full h-[400px] cursor-pointer outline-none border-none" src={logo4} alt="Logo 4" /></Link>
+                    <Link to='/fashion'><img className="w-full ms:h-[400px] h-[350px cursor-pointer outline-none border-none" src={logo4} alt="Logo 4" /></Link>
                 </div>
                 <div className='outline-none border-none'>
-                    <Link to='/'><img className="w-full h-[400px] cursor-pointer outline-none border-none" src={logo3} alt="Logo 3" /></Link>
+                    <Link to='/'><img className="w-full ms:h-[400px] h-[350px cursor-pointer outline-none border-none" src={logo3} alt="Logo 3" /></Link>
                 </div>
             </Slider>
         </div>

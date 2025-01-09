@@ -80,13 +80,13 @@ const AddProduct = () => {
     }
 
     return (
-        <div className="w-[700px] box-border py-[30px] px-[50px] flex flex-col gap-6 m-[30px] bg-white">
+        <div className="max-w-[700px] md:w-full box-border py-[30px] mp:px-[50px] px-[20px] flex flex-col gap-6 m-[30px] bg-white">
             <p className="pt-5 text-[30px] flex items-center justify-center text-center">Add a Product</p>
             <div className='w-full text-[#7b7b7b] text-[18px]'>
                 <p>Product Name</p>
                 <input value={formData.Name} onChange={handleChange} className="w-full h-[50px] pl-[15px] box-border border-2 border-[#c3c3c3] text-[#7b7b7b] outline-0 rounded text-[14px]" type="text" name="Name" placeholder="Product name here" />
             </div>
-            <div className='flex gap-10'>
+            <div className='sk:flex gap-10'>
                 <div className='w-full text-[#7b7b7b] text-[18px]'>
                     <p>Old Price</p>
                     <input value={formData.Old_price} onChange={handleChange} className="w-full h-[50px] pl-[15px] box-border border-2 border-[#c3c3c3] outline-0 rounded text-[14px]" type="text" name="Old_price" placeholder="Old price here" />
@@ -96,7 +96,7 @@ const AddProduct = () => {
                     <input value={formData.New_price} onChange={handleChange} className="w-full h-[50px] pl-[15px] box-border border-2 border-[#c3c3c3] outline-0 rounded text-[14px]" type="text" name="New_price" placeholder="New price here" />
                 </div>
             </div>
-            <div className='flex gap-10'>
+            <div className='sk:flex gap-10'>
                 <div className='w-full text-[#7b7b7b] text-[18px]'>
                     <p>Brand</p>
                     <input value={formData.Brand} onChange={handleChange} className="w-full h-[50px] pl-[15px] box-border border-2 border-[#c3c3c3] outline-0 rounded text-[14px]" type="text" name="Brand" placeholder="Brand name here" />
@@ -109,10 +109,10 @@ const AddProduct = () => {
                     </label>
                 </div>
             </div>
-            <div className='flex gap-10'>
+            <div className='sk:flex gap-10'>
                 <div className='w-full text-[#7b7b7b] text-[18px]'>
                     <p>Category</p>
-                    <select value={formData.Category} onChange={handleChange} name="Category" className='h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
+                    <select value={formData.Category} onChange={handleChange} name="Category" className='w-full h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
                         <option value="Phone & Accessories">Phone & Accessories</option>
                         <option value="Fashion">Fashion</option>
                         <option value="Drinks & Groceries">Drinks & Groceries</option>
@@ -122,7 +122,7 @@ const AddProduct = () => {
                 </div>
                 <div className='w-full text-[#7b7b7b] text-[18px]'>
                     <p>Sub Category</p>
-                    <select value={formData.Sub_Category} onChange={handleChange} name="Sub_Category" className='h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
+                    <select value={formData.Sub_Category} onChange={handleChange} name="Sub_Category" className='w-full h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
                         <option value="Mobile">Mobile</option>
                         <option value="Tablet">Tablet</option>
                         <option value="Accessories">Accessories</option>
@@ -139,7 +139,7 @@ const AddProduct = () => {
                     </select>
                 </div>
             </div>
-            <div className='flex gap-10'>
+            <div className='sk:flex gap-10'>
                 <div className='w-full text-[#7b7b7b] text-[17px]'>
                     <p>Mini Category</p>
                     <select value={formData.Mini_Category} onChange={handleChange} name="Mini_Category" className='h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>

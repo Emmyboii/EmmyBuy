@@ -20,7 +20,7 @@ const AcctInfo = () => {
     })
 
     return (
-        <div className='rounded-lg bg-white w-[800px] my-9'>
+        <div className='rounded-lg bg-white my-9'>
             <h1 className='p-4 pb-2 text-[25px] font-bold'>Account Information</h1>
             <hr className='h-[2px] border-black' />
             <div className='p-4'>

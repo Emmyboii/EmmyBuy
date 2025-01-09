@@ -13,10 +13,10 @@ import NewsLetter from '../Components/NewsLetter'
 const Home = () => {
     return (
         <>
-            <div className='mx-[80px] flex flex-col gap-4'>
+            <div className='xl:mx-[80px] lg:mx-[60px] ma:mx-[40px] mx-[20px] flex flex-col gap-4'>
                 <HeroBanner />
-                <TodayDeal />
                 <ShortBanners />
+                <TodayDeal />
                 <Recommended />
                 <RecentlyAdded />
                 <PhoneDeal />

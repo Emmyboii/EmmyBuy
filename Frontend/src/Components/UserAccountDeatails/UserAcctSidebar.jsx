@@ -7,7 +7,7 @@ const UserAcctSidebar = () => {
     const { onClickSignOut } = useContext(ShopContext)
 
     return (
-        <div className='w-[340px] h-[700px] rounded-lg bg-white ml-[70px] my-9 flex flex-col'>
+        <div className='w-[30%] h-[700px] rounded-lg bg-white my-9 mq:flex flex-col hidden'>
             <div className='flex flex-col gap-1 px-4 py-4'>
                 <h1 className='text-[20px] font-bold'>My Profile</h1>
                 <Link to={'./acct_info'}>

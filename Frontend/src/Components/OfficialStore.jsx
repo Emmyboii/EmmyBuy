@@ -13,10 +13,10 @@ import Tecno2 from '../assets/tecno2.jpg';
 const OfficialStore = () => {
     return (
         <div>
-            <div className='bg-black flex items-center justify-center py-4 text-[25px] font-semibold text-white'>
+            <div className='bg-black flex items-center justify-center sm:py-4 py-2 sm:text-[25px] text-[20px] font-semibold text-white'>
                 <p>Official Stores</p>
             </div>
-            <div className='bg-white px-3 grid grid-cols-5 py-[10px] gap-[10px]'>
+            <div className='bg-white px-3 grid sm:grid-cols-5 grid-cols-4 py-[10px] gap-[10px]'>
                 <div className='flex flex-col cursor-pointer items-center hover:scale-[1.02] duration-300 text-center'>
                     <img src={Samsung} className='rounded-md' alt="" />
                 </div>

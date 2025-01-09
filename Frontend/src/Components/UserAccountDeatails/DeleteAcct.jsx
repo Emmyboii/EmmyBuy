@@ -8,7 +8,7 @@ const DeleteAcct = () => {
     const { onClickDeleteAcct } = useContext(ShopContext)
 
     return (
-        <div className='rounded-lg w-[800px] min-h-[700px] bg-white my-9 px-[100px] py-[140px]'>
+        <div className='rounded-lg min-h-[700px] bg-white my-9 lg:px-[100px] mm:px-[50px] px-6 py-[140px]'>
             <h1 className='text-[25px] font-bold'>Delete Account</h1>
             <p className='text-[20px] font-semibold'>Please Read Carefully</p>
             <p>

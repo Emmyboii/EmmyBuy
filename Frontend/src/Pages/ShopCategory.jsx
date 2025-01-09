@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { IoIosArrowForward } from "react-icons/io";
+import { FaSort } from "react-icons/fa";
+import { MdFilterAlt } from "react-icons/md";
 import Item from '../Components/Item';
 import { ShopContext } from '../Context/ShopContext';
 
@@ -70,7 +72,7 @@ const ShopCategory = (props) => {
     return (
         <>
             {/*Navbar*/}
-            <div className='bg-white px-5 flex flex-col gap-4 py-5 w-full shadow-md'>
+            <div className='bg-white px-5 flex flex-col gap-4 py-5 w-full z-40 shadow-md shadow-black'>
                 {/* Breadcrum */}
                 <div>
                     <div className='flex items-center gap-1'>
@@ -94,8 +96,8 @@ const ShopCategory = (props) => {
                     </div>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <div className='text-[30px] font-bold'>{props.name}</div>
-                    <div className='flex gap-2'>
+                    <div className='ma:text-[30px] md:text-[24px] sd:text-[30px] text-[24px] font-bold'>{props.name}</div>
+                    <div className='md:flex hidden gap-2'>
                         <p>Sort by:</p>
                         <div className='flex'>
                             <p onClick={sortByRecent} className='border border-red-500 p-2 cursor-pointer'>Recent</p>
@@ -106,13 +108,25 @@ const ShopCategory = (props) => {
                 </div>
             </div>
 
-            <img className='w-full h-[500px] object-fill p-5' src={props.banner} alt="" />
+            <div className='bg-white flex md:hidden items-center justify-between mt-[2px] text-red-500 sm:px-40 sd:px-20 px-10 py-2'>
+                <p className='flex gap-2 items-center cursor-pointer'>
+                    <MdFilterAlt />
+                    FILTER
+                </p>
+                <div className='border-l-2 border-red-500 h-[30px]'></div>
+                <p className='flex gap-2 items-center cursor-pointer'>
+                    <FaSort />
+                    SORT
+                </p>
+            </div>
 
-            <div className='m-5 flex gap-5'>
+            <img className='w-full md:h-[500px] object-fill sd:p-5 sr:p-2 p-5' src={props.banner} alt="" />
+
+            <div className='sd:m-5 sr:m-2 m-5 md:flex xl:gap-5 gap-3'>
                 {/* Sidebar */}
-                <div className='bg-white w-[260px] p-4 h-screen flex flex-col gap-2'>
+                <div className='bg-white lg:w-[260px] mk:w-[220px] w-[250px] hidden p-4 h-screen md:flex flex-col gap-2'>
                     <div>
-                        <h1 className='text-[21px] font-bold'>Browse Categories</h1>
+                        <h1 className='lg:text-[21px] mk:text-[18px] text-[21px] font-bold'>Browse Categories</h1>
                         {[...new Set(
                             allProduct
                                 .filter(item => item.Category === props.Category) // Filter by category
@@ -226,7 +240,7 @@ const ShopCategory = (props) => {
 
                 {/* Display */}
                 <div>
-                    <div className='grid grid-cols-4 gap-3 cursor-pointer'>
+                    <div className='grid lg:grid-cols-4 mk:grid-cols-3 sr:grid-cols-2 grid-cols- xl:gap-3 sd:gap-3 sr:gap-[3px] gap-4 cursor-pointer'>
                         {filteredProducts
                             .map((item, i) => (
                                 <Item

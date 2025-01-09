@@ -7,7 +7,7 @@ import DeleteAcct from './DeleteAcct'
 
 const UserAccountDetails = () => {
     return (
-        <div>
+        <div className='w-full mq:max-w-[70%]'>
             <Routes>
                 <Route path='/acct_info' element={<AcctInfo />} />
                 <Route path='/address' element={<DeliveryAddress />} />

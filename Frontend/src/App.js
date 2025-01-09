@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import ShopCategory from './Pages/ShopCategory';
 import phone_banner from './assets/Phones Accessories/Phone.jpg'
+import all_banner from './assets/Homelogo4.jpg'
 import fahion_banner from './assets/Fashion/Fashion.jpg'
 import drink_banner from './assets/Drinks & Groceries/Drinks.jpg'
 import game_banner from './assets/Gaming/Gaming.jpg'
@@ -17,12 +18,16 @@ import Login from './Pages/Login';
 import ConfirmSignOut from './Components/ConfirmSignOut';
 import ConfirmDeleteAccount from './Components/ConfirmDeleteAccount';
 import SuccessfulDelete from './Components/SuccessfulDelete';
+import AllCategory from './Pages/AllCategory';
+import CartAndSaveModal from './Components/CartAndSaveModal';
+import SideBar from './Components/SideBar';
 
 function App() {
   return (
-    <div className="App">
+    <div className="">
       <BrowserRouter>
         <Navbar />
+        <SideBar />
         <Routes>
           <Route path='/' element={<Home />} />
 
@@ -31,6 +36,8 @@ function App() {
           <Route path='/drinks&groceries' element={<ShopCategory banner={drink_banner} name='Drinks & Groceries' Category="Drinks & Groceries" />} />
           <Route path='/gaming' element={<ShopCategory banner={game_banner} name='Gaming' Category="Gaming" />} />
           <Route path='/kitchen' element={<ShopCategory banner={kitchen_banner} name='Appliances' Category="Appliances" />} />
+
+          <Route path="/allproducts" element={<AllCategory banner={all_banner} />} />
 
           <Route path="/product/:productID" element={<ProductDisplay />} />
 
@@ -47,6 +54,7 @@ function App() {
           <Route path='/login' element={<Login />} />
         </Routes>
         <ConfirmSignOut />
+        <CartAndSaveModal />
         <ConfirmDeleteAccount />
         <SuccessfulDelete />
         <Footer />

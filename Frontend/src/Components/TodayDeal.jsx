@@ -82,9 +82,12 @@ const TodayDeal = () => {
     }, [])
 
     useEffect(() => {
-        if (sliderRef.current) {
-            const slides = sliderRef.current.innerSlider.props.children.length;
-            setTotalSlides(slides);
+        if (sliderRef.current && todayDeal.length > 0) {
+            // Delay recalculation to ensure slider has rendered
+            setTimeout(() => {
+                const slides = sliderRef.current.innerSlider.props.children.length;
+                setTotalSlides(slides);
+            }, 100);
         }
     }, [todayDeal]);
 
@@ -102,6 +105,92 @@ const TodayDeal = () => {
         prevArrow: (
             <CustomPrevArrow show={hovered} hidden={currentSlide === 0} />
         ),
+        responsive: [
+            {
+                breakpoint: 1150,
+                settings: {
+                    slidesToShow: 4.06,
+                    slidesToScroll: 2,
+                }
+            },
+            {
+                breakpoint: 1000,
+                settings: {
+                    slidesToShow: 3.7,
+                    slidesToScroll: 2,
+                }
+            },
+            {
+                breakpoint: 910,
+                settings: {
+                    slidesToShow: 3.3,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 800,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 750,
+                settings: {
+                    slidesToShow: 2.7,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 670,
+                settings: {
+                    slidesToShow: 2.4,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2.15,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 550,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 500,
+                settings: {
+                    slidesToShow: 1.7,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 450,
+                settings: {
+                    slidesToShow: 1.6,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 400,
+                settings: {
+                    slidesToShow: 1.45,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 350,
+                settings: {
+                    slidesToShow: 1.2,
+                    slidesToScroll: 1
+                }
+            },
+        ]
     };
 
     return (
@@ -109,9 +198,9 @@ const TodayDeal = () => {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
         >
-            <div className="flex items-center justify-between bg-red-500 text-white px-10 py-4 text-[25px] font-semibold">
+            <div className="flex items-center justify-between bg-red-500 text-white md:px-10 px-3 py-4 md:text-[25px] text-[20px] font-semibold">
                 <div className="flex items-center gap-1">
-                    <AiFillTag className="text-[30px] text-orange-500" />
+                    <AiFillTag className="md:text-[30px] text-[20px] text-orange-500" />
                     <p>Today's Deal</p>
                 </div>
                 <p className="flex gap-1 items-center cursor-pointer">

@@ -24,13 +24,54 @@ const ShopContextProvider = (props) => {
   const [allProduct, setAllProduct] = useState([])
   const [confirmSignOut, setConfirmSignOut] = useState(false)
   const [confirmDeleteAcct, setConfirmDeleteAcct] = useState(false)
+  const [confirmRemoveCart, setConfirmRemoveCart] = useState(false)
+  const [cartModal, setCartModal] = useState(false)
+  const [sideBar, setSideBar] = useState(false)
+  const [userSideBar, setUserSideBar] = useState(false)
+  const [savedModal, setSavedModal] = useState(false)
+  const [cartRemoveModal, setCartRemoveModal] = useState(false)
+  const [savedRemoveModal, setSavedRemoveModal] = useState(false)
+  const [quantityModal, setQuantityModal] = useState(false)
 
   const onClickSignOut = () => {
     setConfirmSignOut(!confirmSignOut)
   }
 
+  const onClickMenu = () => {
+    setSideBar(!sideBar)
+  }
+
+  const onClickUserAcctMenu = () => {
+    setUserSideBar(!userSideBar)
+
+  }
+
   const onClickDeleteAcct = () => {
     setConfirmDeleteAcct(!confirmDeleteAcct)
+  }
+
+  const onClickRemoveCart = () => {
+    setConfirmRemoveCart(!confirmRemoveCart)
+  }
+
+  const ModalOn = () => {
+    setCartModal(!cartModal)
+  }
+
+  const SavedModalOn = () => {
+    setSavedModal(!savedModal)
+  }
+
+  const QuantityModalOn = () => {
+    setQuantityModal(!quantityModal)
+  }
+
+  const ModalClose = () => {
+    setCartRemoveModal(!cartRemoveModal)
+  }
+
+  const SavedModalClose = () => {
+    setSavedRemoveModal(!savedRemoveModal)
   }
 
   const [cartItem, setCartItem] = useState(() => {
@@ -52,6 +93,66 @@ const ShopContextProvider = (props) => {
     const savedItems = localStorage.getItem('loggedOutSavedItem');
     return savedItems ? JSON.parse(savedItems) : getDefaultSavedItem();
   })
+
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState(allProduct);
+
+  const handleChange = (event) => {
+    const value = event.target.value.toLowerCase();
+    setQuery(value);
+  }
+
+  const handleSearch = (event) => {
+    const value = event.target.value.toLowerCase().split(' ');
+
+    const filteredItems = allProduct.filter(item => {
+      const searchableText = [
+        item.Name,
+        item.Brand,
+        item.Category,
+        item.Mini_Category,
+        item.Sub_Category
+      ].join(' ').toLowerCase();
+
+      // Check if every part of the query matches any of the combined fields
+      return value.every(part => searchableText.includes(part));
+    }
+    );
+
+    window.location.href = `/allproducts/?q=${encodeURIComponent(value)}`;
+
+    setResults(filteredItems);
+    localStorage.setItem('SearchResult', JSON.stringify(filteredItems))
+    localStorage.setItem('query', value.join(' '));
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      const value = event.target.value.toLowerCase().split(' ');
+
+      const filteredItems = allProduct.filter(item => {
+        const searchableText = [
+          item.Name,
+          item.Brand,
+          item.Category,
+          item.Mini_Category,
+          item.Sub_Category
+        ].join(' ').toLowerCase();
+
+        // Check if every part of the query matches any of the combined fields
+        return value.every(part => searchableText.includes(part));
+      }
+      );
+
+      window.location.href = `/allproducts/?q=${encodeURIComponent(value)}`;
+
+      setResults(filteredItems);
+      localStorage.setItem('SearchResult', JSON.stringify(filteredItems))
+      localStorage.setItem('query', value.join(' '));
+    }
+
+
+  };
 
   useEffect(() => {
     fetch('http://localhost:5000/product/allproducts')
@@ -198,7 +299,51 @@ const ShopContextProvider = (props) => {
     localStorage.setItem('loggedOutSavedItem', JSON.stringify(loggedOutSavedItem));
   }, [loggedOutSavedItem]);
 
-  const contextValue = { confirmSignOut, confirmDeleteAcct, onClickSignOut, onClickDeleteAcct, getTotalValue, getTotalCartItem, allProduct, cartItem, savedItem, setAllProduct, addToCart, removeFromCart, removeAllCart, saveItem, removeSaveItem, }
+  const contextValue = {
+    confirmSignOut,
+    confirmDeleteAcct,
+    confirmRemoveCart,
+    handleSearch,
+    handleChange,
+    handleKeyDown,
+    results,
+    setResults,
+    ModalOn,
+    SavedModalOn,
+    QuantityModalOn,
+    cartModal,
+    savedModal,
+    ModalClose,
+    SavedModalClose,
+    cartRemoveModal,
+    savedRemoveModal,
+    quantityModal,
+    setCartModal,
+    setSavedModal,
+    setCartRemoveModal,
+    setSavedRemoveModal,
+    setQuantityModal,
+    setConfirmRemoveCart,
+    query,
+    sideBar,
+    onClickSignOut,
+    onClickDeleteAcct,
+    onClickRemoveCart,
+    onClickMenu,
+    onClickUserAcctMenu,
+    userSideBar,
+    getTotalValue,
+    getTotalCartItem,
+    allProduct,
+    cartItem,
+    savedItem,
+    setAllProduct,
+    addToCart,
+    removeFromCart,
+    removeAllCart,
+    saveItem,
+    removeSaveItem,
+  }
 
   return (
     <ShopContext.Provider value={contextValue}>
