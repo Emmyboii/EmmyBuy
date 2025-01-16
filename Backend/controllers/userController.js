@@ -79,6 +79,91 @@ const login = async (req, res) => {
     }
 }
 
+const verifyUserEmail = async (req, res) => {
+    const user = await User.findOne({ email: req.body.email })
+
+    if (!user) {
+        return res.status(400).json({
+            success: false,
+            message: 'This Email Address is not registered!'
+        })
+    } else {
+        return res.status(200).json({
+            success: true,
+            message: 'User Verified!'
+        })
+    }
+}
+
+const changePassword = async (req, res) => {
+    const { email, password1, password2 } = req.body
+
+    const NewHashedPassword = await bcrypt.hash(password1, 10)
+
+    if (password1 === password2) {
+        await User.findOneAndUpdate(
+            { email: email },
+            {
+                $set: {
+                    password: NewHashedPassword
+                }
+            },
+            { new: true }
+        )
+        res.status(200).json({
+            success: true,
+            message: 'Password Updated Successfully',
+        })
+        console.log(email, NewHashedPassword);
+
+    } else {
+        res.status(400).json({
+            success: false,
+            message: 'Password does not match!',
+        })
+    }
+}
+
+const changePasswordOnLogin = async (req, res) => {
+    const { currentPassword, password1, password2 } = req.body
+
+    const NewHashedPassword = await bcrypt.hash(password1, 10)
+
+    const user = await User.findOne({ _id: req.user.id })
+
+    const comparePassword = await bcrypt.compare(currentPassword, user.password);
+
+    if (!comparePassword) {
+        res.status(400).json({
+            success: false,
+            error: 'Incorrect User Password!',
+        })
+    } else {
+        if (password1 === password2) {
+            await User.findOneAndUpdate(
+                { _id: req.user.id },
+                {
+                    $set: {
+                        password: NewHashedPassword
+                    }
+                },
+                { new: true }
+            )
+            res.status(200).json({
+                success: true,
+                message: 'Password Updated Successfully',
+            })
+            console.log(user.email, NewHashedPassword);
+
+        } else {
+            res.status(400).json({
+                success: false,
+                message: 'Password does not match!',
+            })
+        }
+    }
+}
+
 const verifyUser = async (req, res, next) => {
     const token = req.header('token')
     if (!token) {
@@ -153,52 +238,34 @@ const removeSavedItem = async (req, res) => {
 
 const getCart = async (req, res) => {
     let userCart = await User.findOne({ _id: req.user.id })
-    res.json(userCart.cartData)
+    const loggedOutCartItem = req.body.loggedOutCartItem
+    const cartItem = userCart.cartData
+
+    for (let key in loggedOutCartItem) {
+        if (cartItem.hasOwnProperty(key)) {
+            cartItem[key] += loggedOutCartItem[key];
+        } else {
+            cartItem[key] = loggedOutCartItem[key];
+        }
+    }
+
+    await User.findOneAndUpdate({ _id: req.user.id }, { cartData: cartItem })
+    res.json(cartItem)
 }
 
 const getSavedItems = async (req, res) => {
-    const userId = req.user.id; // Get user from token
+    const userId = req.user.id;
 
-    // Find the user and return the cart data
     const user = await User.findOne({ _id: userId });
-    res.json(user.savedItem); // Return the user's cart data
+    res.json(user.savedItem);
 }
-
-const syncGuestCart  = async (req, res) => {
-    const userId = req.user.id; // Get user from token
-    const guestItems = req.body.items; // Guest items from request
-
-    // Find the logged-in user
-    const user = await User.findOne({ _id: userId });
-
-    // Merge guest items into the user's cartData
-    for (let itemId in guestItems) {
-        user.cartData[itemId] = (user.cartData[itemId] || 0) + guestItems[itemId];
-    }
-
-    // Save updated cart data
-    await user.save();
-
-    // Respond with success
-    res.json({ success: true });
-}
-
-const syncGuestSavedItems = async (req, res) => {
-    const userId = req.user.id; // Get user from token
-    const guestSavedItems = req.body.items; // Guest saved items from request
-  
-    const user = await User.findOne({ _id: userId });
-    for (let itemId in guestSavedItems) {
-      user.savedItems[itemId] = (user.savedItems[itemId] || 0) + guestSavedItems[itemId];
-    }
-  
-    await user.save();
-    res.json({ success: true });
-  };
 
 module.exports = {
     signUp,
     login,
+    verifyUserEmail,
+    changePassword,
+    changePasswordOnLogin,
     verifyUser,
     getUsers,
     deleteUsers,
@@ -208,7 +275,5 @@ module.exports = {
     addSavedItem,
     removeSavedItem,
     getCart,
-    getSavedItems,
-    syncGuestCart,
-    syncGuestSavedItems
+    getSavedItems
 }

@@ -108,7 +108,7 @@ const SignUp = () => {
     return (
         <div className='w-full py-10'>
             <form onSubmit={OnSignUp}>
-                <div className='max-w-[550px] bg-white rounded-lg m-auto'>
+                <div className='sk:max-w-[550px] bg-white rounded-lg m-auto'>
                     <p className='text-[25px] font-semibold text-center p-3'>Sign Up Now</p>
                     <hr className='border border-black' />
                     <div className='w-full p-5 flex flex-col gap-4'>

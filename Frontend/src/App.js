@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './Components/Navbar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import Home from './Pages/Home';
 import ShopCategory from './Pages/ShopCategory';
 import phone_banner from './assets/Phones Accessories/Phone.jpg'
@@ -21,10 +22,17 @@ import SuccessfulDelete from './Components/SuccessfulDelete';
 import AllCategory from './Pages/AllCategory';
 import CartAndSaveModal from './Components/CartAndSaveModal';
 import SideBar from './Components/SideBar';
+import ForgotPassword from './Pages/ForgotPassword';
+import VerifyEmail from './Pages/VerifyEmail';
 
 function App() {
+
+  const isLoggedIn = localStorage.getItem('token');
+  const isVerified = localStorage.getItem('emailVerified');
+  const isforgotPassword = localStorage.getItem('forgotPassword');
+
   return (
-    <div className="">
+    <div>
       <BrowserRouter>
         <Navbar />
         <SideBar />
@@ -43,15 +51,34 @@ function App() {
 
           <Route path='/cart' element={<Cart />} />
 
-          <Route path='customer/account' element={<UserAccount />} >
+          <Route path='customer/account' element={
+            isLoggedIn ? <UserAccount /> : <Navigate to="/login" />
+          }
+          >
             <Route path='acct_info' element={<UserAccount />} />
             <Route path='address' element={<UserAccount />} />
+            <Route path='orders' element={<UserAccount />} />
+            <Route path='wallet' element={<UserAccount />} />
             <Route path='saved_items' element={<UserAccount />} />
             <Route path='delete_acct' element={<UserAccount />} />
           </Route>
 
-          <Route path='/signUp' element={<SignUp />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/signUp' element={
+            !isLoggedIn ? <SignUp /> : <Navigate to="/" />
+          }
+          />
+          <Route path='/login' element={
+            !isLoggedIn ? <Login /> : <Navigate to="/" />
+          }
+          />
+          <Route path='/forgotpassword' element={
+            isVerified ? <ForgotPassword /> : <Navigate to="/verifyemail" />
+          }
+          />
+          <Route path='/verifyemail' element={
+            isforgotPassword ? <VerifyEmail /> : <Navigate to="/" />
+          }
+          />
         </Routes>
         <ConfirmSignOut />
         <CartAndSaveModal />

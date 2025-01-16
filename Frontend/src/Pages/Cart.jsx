@@ -160,8 +160,8 @@ const Cart = () => {
                         </div>
                         <hr className='md:hidden block' />
                         <div className='md:hidden flex items-center justify-between text-center sm:px-20 px-3 py-5 mm:text-[18px]'>
-                            <p onClick={() => saveToWishlist2(item.id)} className='border-2 border-black rounded-md p-2 flex items-center gap-2 cursor-pointer'><CiHeart /> Save For Later</p>
-                            <p onClick={() => onClickRemoveCart()} className='border-2 border-black rounded-md p-2 flex items-center gap-2 cursor-pointer'><LiaTimesCircleSolid />Remove Item</p>
+                            <p onClick={() => saveToWishlist2(item.id)} className='border-2 border-orange-500 rounded-md p-2 flex items-center gap-2 cursor-pointer'><CiHeart /> Save For Later</p>
+                            <p onClick={() => onClickRemoveCart()} className=' rounded-md bg-red-500 text-white p-2 flex items-center gap-2 cursor-pointer'><LiaTimesCircleSolid />Remove Item</p>
                         </div>
                         <hr className='h-[2px] bg-gray-400 border-0 md:block hidden' />
 

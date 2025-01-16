@@ -5,6 +5,7 @@ import { ShopContext } from '../../Context/ShopContext'
 const UserAcctSidebar = () => {
 
     const { onClickSignOut } = useContext(ShopContext)
+    
 
     return (
         <div className='w-[30%] h-[700px] rounded-lg bg-white my-9 mq:flex flex-col hidden'>

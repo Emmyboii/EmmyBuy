@@ -1,12 +1,9 @@
 const port = 5000
 const express = require("express")
 const app = express()
-const mongoose = require("mongoose")
 const multer = require("multer")
 const cors = require("cors")
-const jwt = require("jsonwebtoken")
 const path = require("path")
-const bcrypt = require("bcryptjs")
 const connectDb = require("./config/Dbconnection")
 
 app.use(express.json())

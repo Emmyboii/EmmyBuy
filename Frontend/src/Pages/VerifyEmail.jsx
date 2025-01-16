@@ -1,14 +1,12 @@
 import React, { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { IoIosEyeOff, IoMdEye, IoMdWarning } from "react-icons/io";
+import { IoMdWarning } from "react-icons/io";
 
-const Login = () => {
+const VerifyEmail = () => {
+
     const [formData, setFormData] = useState({
         email: '',
-        password: '',
     })
 
-    const [showPassword, setShowPassword] = useState(false)
     const [validationError, setValidationError] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [status, setStatus] = useState({ message: '', type: '' });
@@ -20,10 +18,6 @@ const Login = () => {
         if (openModal.current === e.target) {
             setShowModal(false)
         }
-    }
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword)
     }
 
     const handleChange = (e) => {
@@ -44,7 +38,14 @@ const Login = () => {
         return Object.keys(error).length === 0;
     }
 
-    const OnLogin = async (e) => {
+    const handleModalClose = () => {
+        setShowModal(false);
+        if (status.type === 'success') {
+            window.location.replace('/forgotpassword');
+        }
+    };
+
+    const onVerify = async (e) => {
         e.preventDefault()
 
         if (!validateForm()) {
@@ -53,10 +54,9 @@ const Login = () => {
         }
 
         setIsSubmitting(true);
-
         try {
             let responseData
-            await fetch('http://localhost:5000/user/login', {
+            await fetch('http://localhost:5000/user/verifyUserEmail', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -67,11 +67,12 @@ const Login = () => {
                 .then((data) => responseData = data)
 
             if (responseData.success) {
-                localStorage.setItem('token', responseData.token)
                 setStatus({ message: responseData.message, type: 'success' })
                 setShowModal(true)
+                localStorage.setItem('userEmail', formData.email)
+                localStorage.setItem('emailVerified', 'Email is Verified')
             } else {
-                setStatus({ message: responseData.error, type: 'error' })
+                setStatus({ message: responseData.message, type: 'error' })
                 setShowModal(true)
             }
         } catch (error) {
@@ -81,27 +82,16 @@ const Login = () => {
         }
     }
 
-    const handleModalClose = () => {
-        setShowModal(false);
-        if (status.type === 'success') {
-            const previousPage = localStorage.getItem('previousPage') || '/'; // Default to home if no previous page
-            window.location.replace(previousPage);
-        }
-    };
-
     return (
         <div className='w-full py-10'>
-            <form onSubmit={OnLogin}>
-                <div className='sk:max-w-[550px] bg-white rounded-lg m-auto'>
-                    <p className='text-[25px] font-semibold text-center p-3'>Log In to Continue</p>
+            <form onSubmit={onVerify}>
+                <div className='m-auto sk:max-w-[550px] bg-white rounded-lg'>
+                    <p className='text-[25px] font-semibold text-center p-3'>Verify Your Email to continue</p>
                     <hr className='border border-black' />
                     <div className='w-full p-5 flex flex-col gap-4'>
                         {showModal && (
                             <div className={status.type === 'error' ? 'bg-red-500 text-white p-2 rounded-md flex items-center justify-between' : 'bg-green-500 text-white p-2 rounded-md flex items-center justify-between'}>
-                                <p className='text-[17px] font-bold'>
-                                    {status.message}
-                                    <a className='text-white underline ml-2' href='/signUp'>Sign Up?</a>
-                                </p>
+                                <p className='text-[17px] font-bold'>{status.message}</p>
                                 <IoMdWarning className='text-[25px]' />
                             </div>
                         )}
@@ -109,22 +99,6 @@ const Login = () => {
                             <p className='text-[20px]'>Email Address</p>
                             <input className='bg-gray-300 h-[50px] w-full pl-3 outline-none' onChange={handleChange} type="email" name="email" value={formData.email} id="Email_Address" placeholder='Enter your Email Address here' />
                             {validationError.email && <p className='text-red-500 text-[17px]'>{validationError.email}</p>}
-                        </label>
-                        <label htmlFor="password">
-                            <p className='text-[20px]'>Password</p>
-                            <div className='flex items-center'>
-                                <input
-                                    className='bg-gray-300 h-[50px] w-full pl-3 outline-none'
-                                    onChange={handleChange}
-                                    type={showPassword ? "text" : "password"}
-                                    name="password"
-                                    value={formData.password}
-                                    id="password"
-                                    placeholder='Input Your Password'
-                                />
-                                {showPassword ? <IoMdEye onClick={togglePasswordVisibility} className='ml-[-29px] text-[24px] cursor-pointer' /> : <IoIosEyeOff onClick={togglePasswordVisibility} className='ml-[-29px] text-[24px] cursor-pointer' />}
-                            </div>
-                            {status.type === 'error' && <a onClick={() => localStorage.setItem('forgotPassword', 'Forgot Password')} className='text-red-500 underline font-semibold flex items-center justify-center' href='/verifyemail'>Forgot your password?</a>}
                         </label>
                         <button
                             className="bg-red-500 text-white text-[20px] font-semibold h-[50px] button-transition"
@@ -134,19 +108,13 @@ const Login = () => {
                             {isSubmitting ? (
                                 <>
                                     <div className='flex items-center justify-center'>
-                                        <div className='w-5 h-5 border-4 border-l-white rounded-[50%] mr-[8px] animate-spin'></div> Logging In...
+                                        <div className='w-5 h-5 border-4 border-l-white rounded-[50%] mr-[8px] animate-spin'></div> Verifying...
                                     </div>
                                 </>
                             ) : (
-                                'Log In'
+                                'Verify'
                             )}
                         </button>
-                    </div>
-                    <div className='px-5 pb-3 flex gap-3 text-[18px]'>
-                        <p>
-                            Yet to have an accoount?
-                        </p>
-                        <Link to={'/signUp'} className='text-red-500'>Sign up now</Link>
                     </div>
                     {status.type === 'success' ? (
                         <div ref={openModal} onClick={modal} className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-[1.5px]'>
@@ -163,4 +131,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default VerifyEmail

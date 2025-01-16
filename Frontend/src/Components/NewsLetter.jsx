@@ -9,7 +9,7 @@ const NewsLetter = () => {
             </div>
             <div className='flex gap-2 w-full'>
                 <input className='h-[60px] w-full text-black pl-[6px] rounded-lg' type="text" name="" id="" placeholder='Enter your Email Address' />
-                <button className='bg-red-500 w-[100px] h-[60px] text-white font-semibold rounded-lg'>Subscribe</button>
+                <button className='bg-red-500 w-[100px] h-[60px] px-2 text-white font-semibold rounded-lg'>Subscribe</button>
             </div>
         </div>
     )

@@ -1,19 +1,33 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { IoIosArrowForward } from "react-icons/io";
 import { FaSort } from "react-icons/fa";
 import { MdFilterAlt } from "react-icons/md";
 import Item from '../Components/Item';
 import { ShopContext } from '../Context/ShopContext';
+import FilterAndSort from '../Components/FilterAndSort';
 
 const ShopCategory = (props) => {
 
-    const { allProduct } = useContext(ShopContext)
-    const [selectedBrand, setSelectedBrand] = useState([])
-    const [selectedSubCategory, setSelectedSubCategory] = useState('')
-    const [filteredProducts, setFilteredProducts] = useState([]);
+    const { allProduct, selectedBrand, setSelectedBrand, selectedSubCategory, setSelectedSubCategory, filteredProducts, setFilteredProducts, onClickCategoryMenu1, onClickCategoryMenu2, sortByRecent, sortInDescending, sortInAscending } = useContext(ShopContext)
+
 
     useEffect(() => {
+        // Retrieve saved filters from localStorage
+        const savedBrands = JSON.parse(localStorage.getItem('selectedBrand')) || [];
+        const savedSubCategory = localStorage.getItem('selectedSubCategory') || null;
+
+        if (savedBrands.length > 0) {
+            setSelectedBrand(savedBrands);
+        }
+
+        if (savedSubCategory) {
+            setSelectedSubCategory(savedSubCategory);
+        }
+    }, [setSelectedBrand, setSelectedSubCategory]);
+
+    useEffect(() => {
+        // Update filtered products based on selected filters
         const updatedFilteredProducts = allProduct.filter(item => {
             const matchesCategory = item.Category === props.Category;
             const matchesSubCategory = selectedSubCategory
@@ -28,9 +42,15 @@ const ShopCategory = (props) => {
 
         setFilteredProducts(updatedFilteredProducts);
 
+        // Save current filters to localStorage
+        localStorage.setItem('selectedBrand', JSON.stringify(selectedBrand));
+        localStorage.setItem('selectedSubCategory', selectedSubCategory);
+
+        // Save current page to localStorage (optional)
         const currentPage = window.location.pathname;
-        localStorage.setItem('previousPage', currentPage)
-    }, [allProduct, props.Category, selectedSubCategory, selectedBrand]);
+        localStorage.setItem('previousPage', currentPage);
+    }, [allProduct, props.Category, selectedSubCategory, selectedBrand, setFilteredProducts]);
+
 
     // Handle toggling brand selection
     const toggleBrandSelection = (brand) => {
@@ -46,26 +66,12 @@ const ShopCategory = (props) => {
     };
 
     const resetFilters = () => {
-        setSelectedSubCategory([]);
+        setSelectedSubCategory(null);
         setSelectedBrand([]);
+        localStorage.removeItem('selectedBrand');
+        localStorage.removeItem('selectedSubCategory');
     };
 
-    const sortInAscending = () => {
-        setFilteredProducts(
-            [...filteredProducts].sort((a, b) => a.New_price - b.New_price)
-        )
-    }
-    const sortInDescending = () => {
-        setFilteredProducts(
-            [...filteredProducts].sort((a, b) => b.New_price - a.New_price)
-        )
-    }
-
-    const sortByRecent = () => {
-        setFilteredProducts(
-            [...filteredProducts].sort((a, b) => new Date(b.Date) - new Date(a.Date))
-        )
-    }
 
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -108,17 +114,19 @@ const ShopCategory = (props) => {
                 </div>
             </div>
 
-            <div className='bg-white flex md:hidden items-center justify-between mt-[2px] text-red-500 sm:px-40 sd:px-20 px-10 py-2'>
-                <p className='flex gap-2 items-center cursor-pointer'>
+            <div className='bg-white w-full flex md:hidden items-center justify-between mt-[2px] text-red-500 py-2'>
+                <p onClick={onClickCategoryMenu1} className='flex w-full gap-2 items-center justify-center cursor-pointer'>
                     <MdFilterAlt />
                     FILTER
                 </p>
                 <div className='border-l-2 border-red-500 h-[30px]'></div>
-                <p className='flex gap-2 items-center cursor-pointer'>
+                <p onClick={onClickCategoryMenu2} className='flex w-full gap-2 items-center justify-center cursor-pointer'>
                     <FaSort />
                     SORT
                 </p>
             </div>
+
+            <FilterAndSort Category={props.Category} />
 
             <img className='w-full md:h-[500px] object-fill sd:p-5 sr:p-2 p-5' src={props.banner} alt="" />
 
@@ -150,47 +158,22 @@ const ShopCategory = (props) => {
                                 .filter(item => item.Category === props.Category) // Filter by category
                                 .map(item => item.Sub_Category) // Extract relevant properties
                         )]
-                            .map((subcat, i) => {
-                                if (subcat === "Accessories") {
-                                    return (
-                                        <label key={i} className="ml-5 cursor-pointer flex items-center gap-2">
-                                            <input
-                                                type="radio"
-                                                name="subcategory"
-                                                value={subcat}
-                                                checked={selectedSubCategory === subcat}
-                                                onChange={() => setSelectedSubCategory(subcat)} // Set selected subcategory
-                                            />
-                                            Phone {subcat}
-                                        </label>
-                                    )
-                                } else if (subcat === "Mobile" || subcat === "Tablet") {
-                                    return (
-                                        <label key={i} className="ml-5 cursor-pointer flex items-center gap-2">
-                                            <input
-                                                type="radio"
-                                                name="subcategory"
-                                                value={subcat}
-                                                checked={selectedSubCategory === subcat}
-                                                onChange={() => setSelectedSubCategory(subcat)} // Set selected subcategory
-                                            />
-                                            {subcat} Phones
-                                        </label>
-                                    )
-                                }
-                                return (
-                                    <label key={i} className="ml-5 cursor-pointer flex items-center gap-2">
-                                        <input
-                                            type="radio"
-                                            name="subcategory"
-                                            value={subcat}
-                                            checked={selectedSubCategory === subcat}
-                                            onChange={() => setSelectedSubCategory(subcat)} // Set selected subcategory
-                                        />
-                                        {subcat}
-                                    </label>
-                                )
-                            })}
+                            .map((subcat, i) => (
+                                <label key={i} className="ml-5 cursor-pointer flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="subcategory"
+                                        value={subcat}
+                                        checked={selectedSubCategory === subcat}
+                                        onChange={() => setSelectedSubCategory(subcat)} // Set selected subcategory
+                                    />
+                                    {subcat === "Accessories"
+                                        ? `Phone ${subcat}`
+                                        : subcat === "Mobile" || subcat === "Tablet"
+                                            ? `${subcat} Phones`
+                                            : subcat}
+                                </label>
+                            ))}
                     </div>
 
                     {/* Brands */}
@@ -206,7 +189,7 @@ const ShopCategory = (props) => {
                                 if (brandHasProducts(brand)) {
                                     return (
                                         <div key={i}>
-                                            <label className='flex gap-1 ml-5'>
+                                            <label className='flex gap-1 ml-5 cursor-pointer'>
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedBrand.includes(brand)}
@@ -222,7 +205,7 @@ const ShopCategory = (props) => {
                                 // Show all brands if no sub-category is selected
                                 return (
                                     <div key={i}>
-                                        <label className='flex gap-1 ml-5'>
+                                        <label className='flex gap-1 ml-5 cursor-pointer'>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedBrand.includes(brand)}

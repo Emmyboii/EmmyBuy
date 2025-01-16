@@ -17,7 +17,7 @@ const AddProduct = () => {
         Items_left: "",
     })
 
-      const handleChange = (e) => {
+    const handleChange = (e) => {
         setFormData({
             ...formData, [e.target.name]: e.target.value
         })
@@ -46,7 +46,6 @@ const AddProduct = () => {
         if (responseData.success) {
             try {
                 product.Image = responseData.image_url
-                console.log(product);
                 await fetch('http://localhost:5000/product/addproduct', {
                     method: 'POST',
                     headers: {

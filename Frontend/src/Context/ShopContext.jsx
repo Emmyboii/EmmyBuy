@@ -27,6 +27,8 @@ const ShopContextProvider = (props) => {
   const [confirmRemoveCart, setConfirmRemoveCart] = useState(false)
   const [cartModal, setCartModal] = useState(false)
   const [sideBar, setSideBar] = useState(false)
+  const [categorySideBar1, setCategorySideBar1] = useState(false)
+  const [categorySideBar2, setCategorySideBar2] = useState(false)
   const [userSideBar, setUserSideBar] = useState(false)
   const [savedModal, setSavedModal] = useState(false)
   const [cartRemoveModal, setCartRemoveModal] = useState(false)
@@ -39,6 +41,14 @@ const ShopContextProvider = (props) => {
 
   const onClickMenu = () => {
     setSideBar(!sideBar)
+  }
+
+  const onClickCategoryMenu1 = () => {
+    setCategorySideBar1(!categorySideBar1)
+  }
+
+  const onClickCategoryMenu2 = () => {
+    setCategorySideBar2(!categorySideBar2)
   }
 
   const onClickUserAcctMenu = () => {
@@ -73,26 +83,6 @@ const ShopContextProvider = (props) => {
   const SavedModalClose = () => {
     setSavedRemoveModal(!savedRemoveModal)
   }
-
-  const [cartItem, setCartItem] = useState(() => {
-    const savedCart = localStorage.getItem('cartItem');
-    return savedCart ? JSON.parse(savedCart) : getDefaultCart();
-  })
-
-  const [savedItem, setSavedItem] = useState(() => {
-    const savedItems = localStorage.getItem('savedItem');
-    return savedItems ? JSON.parse(savedItems) : getDefaultSavedItem();
-  })
-
-  const [loggedOutCartItem, setLoggedOutCartItem] = useState(() => {
-    const savedCart = localStorage.getItem('loggedOutCartItem');
-    return savedCart ? JSON.parse(savedCart) : getDefaultCart();
-  })
-
-  const [loggedOutSavedItem, setLoggedOutSavedItem] = useState(() => {
-    const savedItems = localStorage.getItem('loggedOutSavedItem');
-    return savedItems ? JSON.parse(savedItems) : getDefaultSavedItem();
-  })
 
   const [query, setQuery] = useState('');
   const [results, setResults] = useState(allProduct);
@@ -154,13 +144,65 @@ const ShopContextProvider = (props) => {
 
   };
 
+  const [selectedBrand, setSelectedBrand] = useState([])
+  const [selectedSubCategory, setSelectedSubCategory] = useState('')
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const sortInAscending = () => {
+    setFilteredProducts(
+      [...filteredProducts].sort((a, b) => a.New_price - b.New_price)
+    )
+  }
+  const sortInDescending = () => {
+    setFilteredProducts(
+      [...filteredProducts].sort((a, b) => b.New_price - a.New_price)
+    )
+  }
+
+  const sortByRecent = () => {
+    setFilteredProducts(
+      [...filteredProducts].sort((a, b) => new Date(b.Date) - new Date(a.Date))
+    )
+  }
+  const [cartItem, setCartItem] = useState(() => {
+    const savedCart = localStorage.getItem('cartItem');
+    return savedCart ? JSON.parse(savedCart) : getDefaultCart();
+  })
+
+  const [savedItem, setSavedItem] = useState(() => {
+    const savedItems = localStorage.getItem('savedItem');
+    return savedItems ? JSON.parse(savedItems) : getDefaultSavedItem();
+  })
+
+  const [loggedOutCartItem, setLoggedOutCartItem] = useState(() => {
+    const savedCart = localStorage.getItem('loggedOutCartItem');
+    return savedCart ? JSON.parse(savedCart) : getDefaultCart();
+  })
+
   useEffect(() => {
     fetch('http://localhost:5000/product/allproducts')
       .then((res) => res.json())
       .then((data) => setAllProduct(data))
+  }, [])
 
+  useEffect(() => {
     if (localStorage.getItem('token')) {
       fetch('http://localhost:5000/user/getCart', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'token': `${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ loggedOutCartItem })
+      }).then((res) => res.json())
+        .then((data) => setCartItem(data))
+    }
+  }, [loggedOutCartItem])
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      fetch('http://localhost:5000/user/getSavedItems', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -168,9 +210,8 @@ const ShopContextProvider = (props) => {
           'Content-Type': 'application/json'
         },
       }).then((res) => res.json())
-        .then((data) => setCartItem(data))
+        .then((data) => setSavedItem(data))
     }
-
   }, [])
 
 
@@ -237,8 +278,6 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ "itemId": itemId }),
       }).then((res) => res.json())
-    } else {
-      setLoggedOutSavedItem((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
     }
   }
   const removeSaveItem = (itemId) => {
@@ -253,8 +292,6 @@ const ShopContextProvider = (props) => {
         },
         body: JSON.stringify({ "itemId": itemId }),
       }).then((res) => res.json())
-    } else {
-      setLoggedOutSavedItem((prev) => ({ ...prev, [itemId]: 0 }))
     }
   }
 
@@ -290,14 +327,14 @@ const ShopContextProvider = (props) => {
   }, [savedItem]);
 
   useEffect(() => {
-    // Save cart to local storage on cart updates
     localStorage.setItem('loggedOutCartItem', JSON.stringify(loggedOutCartItem));
   }, [loggedOutCartItem]);
 
   useEffect(() => {
-    // Save item to local storage on item updates
-    localStorage.setItem('loggedOutSavedItem', JSON.stringify(loggedOutSavedItem));
-  }, [loggedOutSavedItem]);
+    if (localStorage.getItem('token')) {
+      localStorage.removeItem('loggedOutCartItem');
+    }
+  }, []);
 
   const contextValue = {
     confirmSignOut,
@@ -326,6 +363,10 @@ const ShopContextProvider = (props) => {
     setConfirmRemoveCart,
     query,
     sideBar,
+    categorySideBar1,
+    onClickCategoryMenu1,
+    categorySideBar2,
+    onClickCategoryMenu2,
     onClickSignOut,
     onClickDeleteAcct,
     onClickRemoveCart,
@@ -343,6 +384,15 @@ const ShopContextProvider = (props) => {
     removeAllCart,
     saveItem,
     removeSaveItem,
+    selectedBrand,
+    setSelectedBrand,
+    selectedSubCategory,
+    setSelectedSubCategory,
+    filteredProducts,
+    setFilteredProducts,
+    sortByRecent,
+    sortInDescending,
+    sortInAscending
   }
 
   return (

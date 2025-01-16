@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { IoIosArrowForward } from "react-icons/io";
 import Item from '../Components/Item';
@@ -7,10 +7,8 @@ import { MdFilterAlt } from "react-icons/md";
 import { ShopContext } from '../Context/ShopContext';
 
 const AllCategory = (props) => {
-    const { allProduct, setResults } = useContext(ShopContext)
-    const [selectedBrand, setSelectedBrand] = useState([])
-    const [selectedSubCategory, setSelectedSubCategory] = useState('')
-    // const [filteredProducts, setFilteredProducts] = useState([]);
+    const { allProduct, setResults, selectedBrand, setSelectedBrand, selectedSubCategory, sortByRecent, sortInDescending, sortInAscending } = useContext(ShopContext)
+
 
     const results = JSON.parse(localStorage.getItem('SearchResult')) || allProduct;
 
@@ -50,24 +48,6 @@ const AllCategory = (props) => {
     //     setSelectedSubCategory([]);
     //     setSelectedBrand([]);
     // };
-
-    const sortInAscending = () => {
-        const sortedResults = [...results].sort((a, b) => a.New_price - b.New_price);
-        setResults(sortedResults);
-        localStorage.setItem('SearchResult', JSON.stringify(sortedResults));
-    };
-
-    const sortInDescending = () => {
-        const sortedResults = [...results].sort((a, b) => b.New_price - a.New_price);
-        setResults(sortedResults);
-        localStorage.setItem('SearchResult', JSON.stringify(sortedResults));
-    };
-
-    const sortByRecent = () => {
-        const sortedResults = [...results].sort((a, b) => new Date(b.Date) - new Date(a.Date));
-        setResults(sortedResults);
-        localStorage.setItem('SearchResult', JSON.stringify(sortedResults));
-    };
 
 
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);

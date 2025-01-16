@@ -20,6 +20,14 @@ const ConfirmSignOut = () => {
         localStorage.removeItem('loggedOutSavedItem')
         localStorage.removeItem('savedItem')
         localStorage.removeItem('previousPage')
+        localStorage.removeItem('SearchResult')
+        localStorage.removeItem('selectedBrand')
+        localStorage.removeItem('selectedSubCategory')
+        localStorage.removeItem('userEmail')
+        localStorage.removeItem('emailVerified')
+        localStorage.removeItem('forgotPassword')
+        localStorage.removeItem('recommendedItems')
+        localStorage.removeItem('todaysDeal')
         window.location.replace('/')
     }
 
