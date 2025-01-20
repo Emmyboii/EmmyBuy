@@ -9,13 +9,27 @@ const connectDb = require("./config/Dbconnection")
 require('dotenv').config()
 
 app.use(express.json())
-const cors = require("cors");
-app.use(cors({
-    origin: [
-        process.env.FRONTEND_URL,
-        process.env.ADMIN_URL,
-    ]
-}));
+
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    process.env.ADMIN_URL,
+];
+
+// Configure CORS options
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true, // Allow cookies if needed
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions));
 
 connectDb()
 
