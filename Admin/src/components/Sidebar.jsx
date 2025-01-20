@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import add_Product_Icon from '../assets/Product_cart.svg';
+import add_Product_Icon from '../assets/Product_Cart.svg';
 import list_Product_Icon from '../assets/Product_list_icon.svg';
 
 const Sidebar = () => {
