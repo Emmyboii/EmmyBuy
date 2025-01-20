@@ -80,7 +80,7 @@ const AcctInfo = () => {
         try {
             let responseData
             let userData = { ...userPassword }
-            await fetch('http://localhost:5000/user/changePasswordOnLogin', {
+            await fetch(`${process.env.REACT_APP_API_URL}/user/changePasswordOnLogin`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -108,7 +108,7 @@ const AcctInfo = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/user/getUsers', {
+        fetch(`${process.env.REACT_APP_API_URL}/user/getUsers`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',

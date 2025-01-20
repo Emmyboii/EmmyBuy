@@ -67,7 +67,7 @@ const RecentlyAdded = () => {
     const sliderRef = useRef(null);
 
     useEffect(() => {
-        fetch('http://localhost:5000/product/recentlyAddedHome')
+        fetch(`${process.env.REACT_APP_API_URL}/product/recentlyAddedHome`)
             .then((res) => res.json())
             .then((data) => {
                 setRecentlyAdded(data)

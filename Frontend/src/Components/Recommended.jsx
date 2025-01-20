@@ -72,7 +72,7 @@ const Recommended = () => {
             setRecommend(JSON.parse(cachedData));
         } else {
 
-            fetch('http://localhost:5000/product/reommendedHome')
+            fetch(`${process.env.REACT_APP_API_URL}/product/reommendedHome`)
                 .then((res) => res.json())
                 .then((data) => {
                     setRecommend(data)

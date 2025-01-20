@@ -23,7 +23,7 @@ const ConfirmDeleteAccount = () => {
     }
 
     const deleteAcct = () => {
-        fetch('http://localhost:5000/user/deleteUsers', {
+        fetch(`${process.env.REACT_APP_API_URL}/user/deleteUsers`, {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',

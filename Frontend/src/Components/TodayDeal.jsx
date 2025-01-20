@@ -72,7 +72,7 @@ const TodayDeal = () => {
         if (cachedData) {
             setTodayDeal(JSON.parse(cachedData));
         } else {
-            fetch('http://localhost:5000/product/todayDealHome')
+            fetch(`${process.env.REACT_APP_API_URL}/product/todayDealHome`)
                 .then((res) => res.json())
                 .then((data) => {
                     setTodayDeal(data);

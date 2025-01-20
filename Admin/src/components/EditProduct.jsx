@@ -15,7 +15,7 @@ const EditProduct = () => {
 
     useEffect(() => {
         let id = localStorage.getItem('ProductID')
-        fetch('http://localhost:5000/product/productById', {
+        fetch(`${import.meta.env.VITE_API_URL}/product/productById`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const EditProduct = () => {
                 uploadData.append('product', image); // Field name must match the backend
 
                 // Upload the image
-                responseData = await fetch('http://localhost:5000/upload', {
+                responseData = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
                     method: 'POST',
                     headers: { Accept: 'application/json' },
                     body: uploadData,
@@ -85,7 +85,7 @@ const EditProduct = () => {
             }
 
             // Update the product details, including the new or existing image URL
-            const updateResponse = await fetch('http://localhost:5000/product/updateProduct', {
+            const updateResponse = await fetch(`${import.meta.env.VITE_API_URL}/product/updateProduct`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

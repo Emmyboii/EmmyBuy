@@ -6,8 +6,17 @@ const cors = require("cors")
 const path = require("path")
 const connectDb = require("./config/Dbconnection")
 
+require('dotenv').config()
+
 app.use(express.json())
-app.use(cors())
+const cors = require("cors");
+app.use(cors({
+    origin: [
+        process.env.FRONTEND_URL,
+        process.env.ADMIN_URL,
+    ]
+}));
+
 connectDb()
 
 
@@ -24,12 +33,15 @@ const upload = multer({ storage: storage })
 
 app.use('/images', express.static('upload/images'))
 
+const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
-    })
-})
+        image_url: `${baseUrl}/images/${req.file.filename}`
+    });
+});
+
 
 const productRoutes = require('./routes/productRoutes')
 const userRoutes = require('./routes/userRoutes')

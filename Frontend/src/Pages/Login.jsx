@@ -56,7 +56,7 @@ const Login = () => {
 
         try {
             let responseData
-            await fetch('http://localhost:5000/user/login', {
+            await fetch(`${process.env.REACT_APP_API_URL}/user/login`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

@@ -18,7 +18,6 @@ import SignUp from './Pages/SignUp';
 import Login from './Pages/Login';
 import ConfirmSignOut from './Components/ConfirmSignOut';
 import ConfirmDeleteAccount from './Components/ConfirmDeleteAccount';
-import SuccessfulDelete from './Components/SuccessfulDelete';
 import AllCategory from './Pages/AllCategory';
 import CartAndSaveModal from './Components/CartAndSaveModal';
 import SideBar from './Components/SideBar';
@@ -83,7 +82,6 @@ function App() {
         <ConfirmSignOut />
         <CartAndSaveModal />
         <ConfirmDeleteAccount />
-        <SuccessfulDelete />
         <Footer />
       </BrowserRouter>
     </div>

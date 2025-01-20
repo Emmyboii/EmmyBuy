@@ -69,7 +69,7 @@ const ForgotPassword = () => {
             const email = localStorage.getItem('userEmail')
             let responseData
             let userData = { ...formData, email }
-            await fetch('http://localhost:5000/user/changePassword', {
+            await fetch(`${process.env.REACT_APP_API_URL}/user/changePassword`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

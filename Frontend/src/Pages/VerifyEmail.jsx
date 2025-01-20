@@ -56,7 +56,7 @@ const VerifyEmail = () => {
         setIsSubmitting(true);
         try {
             let responseData
-            await fetch('http://localhost:5000/user/verifyUserEmail', {
+            await fetch(`${process.env.REACT_APP_API_URL}/user/verifyUserEmail`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

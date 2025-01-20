@@ -22,13 +22,13 @@ const ProductList = () => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:5000/product/allproduct')
+        fetch(`${import.meta.env.VITE_API_URL}/product/allproduct`)
             .then((res) => res.json())
             .then((data) => { setProduct(data) })
     }, [])
 
     const remove_product = async (id) => {
-        await fetch('http://localhost:5000/product/deleteProduct', {
+        await fetch(`${import.meta.env.VITE_API_URL}/product/deleteProduct`, {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
