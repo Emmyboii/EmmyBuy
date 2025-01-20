@@ -76,6 +76,7 @@ const SignUp = () => {
             let responseData
             await fetch(`${process.env.REACT_APP_API_URL}/user/signUp`, {
                 method: 'POST',
+                credentials: "include",
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'

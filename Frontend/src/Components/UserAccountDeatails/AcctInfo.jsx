@@ -82,6 +82,7 @@ const AcctInfo = () => {
             let userData = { ...userPassword }
             await fetch(`${process.env.REACT_APP_API_URL}/user/changePasswordOnLogin`, {
                 method: 'POST',
+                credentials: "include",
                 headers: {
                     Accept: 'application/json',
                     'token': `${localStorage.getItem('token')}`,
@@ -110,6 +111,7 @@ const AcctInfo = () => {
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/user/getUsers`, {
             method: 'GET',
+            credentials: "include",
             headers: {
                 Accept: 'application/json',
                 'token': `${localStorage.getItem('token')}`,

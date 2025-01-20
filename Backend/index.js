@@ -10,26 +10,16 @@ require('dotenv').config()
 
 app.use(express.json())
 
-const allowedOrigins = [
-    process.env.FRONTEND_URL,
-    process.env.ADMIN_URL,
-];
 
-// Configure CORS options
-const corsOptions = {
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or Postman)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true, // Allow cookies if needed
-};
+app.use(cors({
+    origin: ['https://emmyybuyy.netlify.app', 'https://emmybuyadmin.netlify.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, // Required if you're sending cookies or other credentials
+    allowedHeaders: ['Content-Type', 'token'],
+    optionsSuccessStatus: 204 // Status for successful OPTIONS preflight response
+}));
 
-// Use CORS middleware
-app.use(cors(corsOptions));
+app.options('*', cors()); // Respond to all preflight requests
 
 connectDb()
 

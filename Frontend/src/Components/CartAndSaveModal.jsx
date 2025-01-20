@@ -5,8 +5,6 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 
 const CartAndSaveModal = () => {
 
-
-
     const {
         ModalOn,
         SavedModalOn,

@@ -189,6 +189,7 @@ const ShopContextProvider = (props) => {
     if (localStorage.getItem('token')) {
       fetch(`${process.env.REACT_APP_API_URL}/user/getCart`, {
         method: 'POST',
+        credentials: "include",
         headers: {
           Accept: 'application/json',
           'token': `${localStorage.getItem('token')}`,
@@ -204,6 +205,7 @@ const ShopContextProvider = (props) => {
     if (localStorage.getItem('token')) {
       fetch(`${process.env.REACT_APP_API_URL}/user/getSavedItems`, {
         method: 'GET',
+        credentials: "include",
         headers: {
           Accept: 'application/json',
           'token': `${localStorage.getItem('token')}`,
@@ -220,6 +222,7 @@ const ShopContextProvider = (props) => {
     if (localStorage.getItem('token')) {
       fetch(`${process.env.REACT_APP_API_URL}/user/addToCart`, {
         method: 'POST',
+        credentials: "include",
         headers: {
           Accept: 'application/json',
           'token': `${localStorage.getItem('token')}`,
@@ -237,6 +240,7 @@ const ShopContextProvider = (props) => {
     if (localStorage.getItem('token')) {
       fetch(`${process.env.REACT_APP_API_URL}/user/removeFromCart`, {
         method: 'POST',
+        credentials: "include",
         headers: {
           Accept: 'application/json',
           'token': `${localStorage.getItem('token')}`,
@@ -254,6 +258,7 @@ const ShopContextProvider = (props) => {
     if (localStorage.getItem('token')) {
       fetch(`${process.env.REACT_APP_API_URL}/user/removeAllCart`, {
         method: 'POST',
+        credentials: "include",
         headers: {
           Accept: 'application/json',
           'token': `${localStorage.getItem('token')}`,
@@ -271,6 +276,7 @@ const ShopContextProvider = (props) => {
     if (localStorage.getItem('token')) {
       fetch(`${process.env.REACT_APP_API_URL}/user/addSavedItem`, {
         method: 'POST',
+        credentials: "include",
         headers: {
           Accept: 'application/json',
           'token': `${localStorage.getItem('token')}`,
@@ -285,6 +291,7 @@ const ShopContextProvider = (props) => {
     if (localStorage.getItem('token')) {
       fetch(`${process.env.REACT_APP_API_URL}/user/removeSavedItem`, {
         method: 'POST',
+        credentials: "include",
         headers: {
           Accept: 'application/json',
           'token': `${localStorage.getItem('token')}`,

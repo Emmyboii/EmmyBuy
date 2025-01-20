@@ -71,6 +71,7 @@ const ForgotPassword = () => {
             let userData = { ...formData, email }
             await fetch(`${process.env.REACT_APP_API_URL}/user/changePassword`, {
                 method: 'POST',
+                credentials: "include",
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'

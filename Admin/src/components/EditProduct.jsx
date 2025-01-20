@@ -17,6 +17,7 @@ const EditProduct = () => {
         let id = localStorage.getItem('ProductID')
         fetch(`${import.meta.env.VITE_API_URL}/product/productById`, {
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
@@ -72,6 +73,7 @@ const EditProduct = () => {
                 // Upload the image
                 responseData = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
                     method: 'POST',
+                    credentials: "include",
                     headers: { Accept: 'application/json' },
                     body: uploadData,
                 }).then((res) => res.json());
@@ -87,6 +89,7 @@ const EditProduct = () => {
             // Update the product details, including the new or existing image URL
             const updateResponse = await fetch(`${import.meta.env.VITE_API_URL}/product/updateProduct`, {
                 method: 'POST',
+                credentials: "include",
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',

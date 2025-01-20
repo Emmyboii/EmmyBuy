@@ -37,6 +37,7 @@ const AddProduct = () => {
 
         await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
             method: 'POST',
+            credentials: "include",
             headers: {
                 Accept: 'application/json'
             },
@@ -48,6 +49,7 @@ const AddProduct = () => {
                 product.Image = responseData.image_url
                 await fetch(`${import.meta.env.VITE_API_URL}/product/addproduct`, {
                     method: 'POST',
+                    credentials: "include",
                     headers: {
                         Accept: 'application/json',
                         "Content-Type": "application/json"

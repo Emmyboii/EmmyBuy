@@ -30,6 +30,7 @@ const ProductList = () => {
     const remove_product = async (id) => {
         await fetch(`${import.meta.env.VITE_API_URL}/product/deleteProduct`, {
             method: 'DELETE',
+            credentials: "include",
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'

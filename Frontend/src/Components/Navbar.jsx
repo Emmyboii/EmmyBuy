@@ -17,6 +17,7 @@ const Navbar = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/user/getUsers`, {
       method: 'GET',
+      credentials: "include",
       headers: {
         'token': `${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'

@@ -25,6 +25,7 @@ const ConfirmDeleteAccount = () => {
     const deleteAcct = () => {
         fetch(`${process.env.REACT_APP_API_URL}/user/deleteUsers`, {
             method: 'DELETE',
+            credentials: "include",
             headers: {
                 Accept: 'application/json',
                 'token': `${localStorage.getItem('token')}`,
