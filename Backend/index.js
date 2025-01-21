@@ -1,5 +1,5 @@
 const port = 5000
-const express = require("express")
+import express from 'express';
 const app = express()
 const multer = require("multer")
 const cors = require("cors")
