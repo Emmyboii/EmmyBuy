@@ -1,7 +1,7 @@
-const express = require('express')
-const router = express.Router()
+import express from 'express';
+const router = express.Router();
 
-const {
+import {
     signUp,
     login,
     verifyUserEmail,
@@ -17,22 +17,22 @@ const {
     removeSavedItem,
     getCart,
     getSavedItems,
-} = require('../controllers/userController')
+} from '../controllers/userController.js';
 
-router.route('/signUp').post(signUp)
-router.route('/login').post(login)
+router.route('/signUp').post(signUp);
+router.route('/login').post(login);
 
-router.post('/verifyUserEmail', verifyUserEmail)
-router.post('/changePassword', changePassword)
-router.post('/changePasswordOnLogin', verifyUser, changePasswordOnLogin)
-router.get('/getUsers', verifyUser, getUsers)
-router.delete('/deleteUsers', verifyUser, deleteUsers)
-router.post('/addToCart', verifyUser, addToCart)
-router.post('/removeFromCart', verifyUser, removeFromCart)
-router.post('/removeAllCart', verifyUser, removeAllCart)
-router.post('/addSavedItem', verifyUser, addSavedItem)
-router.post('/removeSavedItem', verifyUser, removeSavedItem)
-router.post('/getCart', verifyUser, getCart)
-router.get('/getSavedItems', verifyUser, getSavedItems)
+router.post('/verifyUserEmail', verifyUserEmail);
+router.post('/changePassword', changePassword);
+router.post('/changePasswordOnLogin', verifyUser, changePasswordOnLogin);
+router.get('/getUsers', verifyUser, getUsers);
+router.delete('/deleteUsers', verifyUser, deleteUsers);
+router.post('/addToCart', verifyUser, addToCart);
+router.post('/removeFromCart', verifyUser, removeFromCart);
+router.post('/removeAllCart', verifyUser, removeAllCart);
+router.post('/addSavedItem', verifyUser, addSavedItem);
+router.post('/removeSavedItem', verifyUser, removeSavedItem);
+router.post('/getCart', verifyUser, getCart);
+router.get('/getSavedItems', verifyUser, getSavedItems);
 
-module.exports = router
+export default router;
