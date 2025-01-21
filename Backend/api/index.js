@@ -4,12 +4,15 @@ const app = express()
 const multer = require("multer")
 const cors = require("cors")
 const path = require("path")
-const connectDb = require("./config/Dbconnection")
+const connectDb = require("../config/Dbconnection")
 
 require('dotenv').config()
 
 app.use(express.json())
 
+export default function handler(req, res) {
+    res.status(200).json({ message: 'Hello, World!, Backend is running!' });
+}
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -59,8 +62,8 @@ app.post("/upload", upload.single('product'), (req, res) => {
 });
 
 
-const productRoutes = require('./routes/productRoutes')
-const userRoutes = require('./routes/userRoutes')
+const productRoutes = require('../routes/productRoutes')
+const userRoutes = require('../routes/userRoutes')
 
 app.use("/product", productRoutes)
 app.use("/user", userRoutes)
