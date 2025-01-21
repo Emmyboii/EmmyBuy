@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from 'url';
 import connectDb from "./config/Dbconnection.js";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
@@ -46,6 +47,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Serve static files for images
 app.use('/images', express.static(path.join(__dirname, 'upload/images')));
