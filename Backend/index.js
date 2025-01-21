@@ -1,14 +1,10 @@
 const port = 5000
-import express from 'express';
-import multer from 'multer';
-import cors from 'cors';
-import connectDb from './config/Dbconnection.js';
-import path from 'path';
+const express = require("express")
 const app = express()
-// const multer = require("multer")
-// const cors = require("cors")
-// const path = require("path")
-// const connectDb = require("./config/Dbconnection")
+const multer = require("multer")
+const cors = require("cors")
+const path = require("path")
+const connectDb = require("./config/Dbconnection")
 
 require('dotenv').config()
 
