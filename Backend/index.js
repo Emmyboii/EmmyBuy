@@ -40,10 +40,12 @@ app.get('/', (req, res) => {
 });
 
 const storage = multer.diskStorage({
-    destination: './upload/images',
-    filename: (req, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
-    }
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, 'upload/images'));
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
 });
 
 const upload = multer({ storage: storage });
@@ -54,18 +56,24 @@ const __dirname = path.dirname(__filename);
 // Serve static files for images
 app.use('/images', express.static(path.join(__dirname, 'upload/images')));
 
+const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+
+// Upload route
+app.post("/upload", upload.single('product'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ success: 0, message: "No file uploaded" });
+    }
+    res.json({
+        success: 1,
+        image_url: `${baseUrl}/images/${req.file.filename}`,
+    });
+});
+
+// 404 handler (should be last)
 app.use((req, res, next) => {
     res.status(404).send('File not found');
 });
 
-const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
-
-app.post("/upload", upload.single('product'), (req, res) => {
-    res.json({
-        success: 1,
-        image_url: `${baseUrl}/images/${req.file.filename}`
-    });
-});
 
 // Routes
 app.use("/product", productRoutes);
