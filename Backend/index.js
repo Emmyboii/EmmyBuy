@@ -11,18 +11,30 @@ require('dotenv').config()
 app.use(express.json())
 
 
-app.use(cors({
-    origin: ['https://emmyybuyy.netlify.app', 'https://emmybuyadmin.netlify.app'],
+const corsOptions = {
+    origin: (origin, callback) => {
+        const allowedOrigins = ['https://emmyybuyy.netlify.app', 'https://emmybuyadmin.netlify.app'];
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true); // Allow the request
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true, // Required if you're sending cookies or other credentials
+    credentials: true,
     allowedHeaders: ['Content-Type', 'token'],
-    optionsSuccessStatus: 204 // Status for successful OPTIONS preflight response
-}));
+    optionsSuccessStatus: 204
+};
 
-app.options('*', cors()); // Respond to all preflight requests
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 
 connectDb()
 
+app.get('/', (req, res) => {
+    res.send('Backend is running!');
+});
 
 const storage = multer.diskStorage({
     destination: './upload/images',
@@ -54,5 +66,5 @@ app.use("/product", productRoutes)
 app.use("/user", userRoutes)
 
 app.listen(port, () => {
-    console.log(`Server Running on port ${port}`);
+    console.log(`Backend server running on ${process.env.BASE_URL}`);
 })
