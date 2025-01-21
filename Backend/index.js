@@ -48,7 +48,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Serve static files for images
-app.use('/images', express.static('upload/images'));
+app.use('/images', express.static(path.join(__dirname, 'upload/images')));
+
+app.use((req, res, next) => {
+    res.status(404).send('File not found');
+});
 
 const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
