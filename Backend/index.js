@@ -50,7 +50,7 @@ const upload = multer({ storage: storage });
 // Serve static files for images
 app.use('/images', express.static('upload/images'));
 
-const baseUrl = `http://localhost:${port}`;
+const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
