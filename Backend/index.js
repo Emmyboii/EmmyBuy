@@ -1,18 +1,18 @@
-const port = 5000
-const express = require("express")
-const app = express()
-const multer = require("multer")
-const cors = require("cors")
-const path = require("path")
-const connectDb = require("./config/Dbconnection")
+import express from "express";
+import multer from "multer";
+import cors from "cors";
+import path from "path";
+import connectDb from "./config/Dbconnection.js";
+import dotenv from "dotenv";
+import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
-require('dotenv').config()
+dotenv.config();
 
-app.use(express.json())
+const port = process.env.PORT || 5000;
+const app = express();
 
-export default function handler(req, res) {
-    res.status(200).json({ message: 'Hello, World!, Backend is running!' });
-}
+app.use(express.json());
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -32,8 +32,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-
-connectDb()
+connectDb();
 
 app.get('/', (req, res) => {
     res.send('Backend is running!');
@@ -42,17 +41,16 @@ app.get('/', (req, res) => {
 const storage = multer.diskStorage({
     destination: './upload/images',
     filename: (req, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
     }
-})
+});
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage });
 
-//Creating upload Endpoint for images
+// Serve static files for images
+app.use('/images', express.static('upload/images'));
 
-app.use('/images', express.static('upload/images'))
-
-const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+const baseUrl = `http://localhost:${port}`;
 
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
@@ -61,13 +59,10 @@ app.post("/upload", upload.single('product'), (req, res) => {
     });
 });
 
-
-const productRoutes = require('./routes/productRoutes')
-const userRoutes = require('./routes/userRoutes')
-
-app.use("/product", productRoutes)
-app.use("/user", userRoutes)
+// Routes
+app.use("/product", productRoutes);
+app.use("/user", userRoutes);
 
 app.listen(port, () => {
-    console.log(`Backend server running on ${process.env.BASE_URL}`);
-})
+    console.log(`Backend server running on port ${port}`);
+});
