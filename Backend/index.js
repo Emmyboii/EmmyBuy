@@ -64,5 +64,5 @@ app.use("/product", productRoutes);
 app.use("/user", userRoutes);
 
 app.listen(port, () => {
-    console.log(`Backend server running on port ${port}`);
+    console.log(`Backend server running on ${process.env.BASE_URL}`);
 });
