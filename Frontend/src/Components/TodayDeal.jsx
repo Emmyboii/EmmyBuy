@@ -69,17 +69,29 @@ const TodayDeal = () => {
 
     useEffect(() => {
         const cachedData = localStorage.getItem("todaysDeal");
+        const now = new Date().getTime();
+
         if (cachedData) {
-            setTodayDeal(JSON.parse(cachedData));
-        } else {
-            fetch(`${process.env.REACT_APP_API_URL}/product/todayDealHome`)
-                .then((res) => res.json())
-                .then((data) => {
-                    setTodayDeal(data);
-                    localStorage.setItem("todaysDeal", JSON.stringify(data));
-                });
+            const { data, timestamp } = JSON.parse(cachedData);
+
+            // Check if 24 hours have passed since the data was cached
+            if (now - timestamp < 24 * 60 * 60 * 1000) {
+                setTodayDeal(data); // Use the cached data if still valid
+                return;
+            }
         }
-    }, [])
+
+        fetch(`${process.env.REACT_APP_API_URL}/product/todayDealHome`)
+            .then((res) => res.json())
+            .then((data) => {
+                setTodayDeal(data);
+                localStorage.setItem(
+                    "todaysDeal",
+                    JSON.stringify({ data, timestamp: now })
+                );
+            });
+    }, []);
+
 
     useEffect(() => {
         if (sliderRef.current && todayDeal.length > 0) {
