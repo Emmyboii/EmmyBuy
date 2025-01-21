@@ -2,7 +2,7 @@ const port = 5000
 import express from 'express';
 import multer from 'multer';
 import cors from 'cors';
-import connectDb from './config/Dbconnection';
+import connectDb from './config/Dbconnection.js';
 import path from 'path';
 const app = express()
 // const multer = require("multer")
