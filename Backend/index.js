@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import cors from "cors";
 import path from "path";
-import connectDb from "./config/Dbconnection.js";
+import { connectDb } from "./config/Dbconnection.js";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
