@@ -1,10 +1,8 @@
-import express from 'express';
-import multer from 'multer';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
-import cors from 'cors';
-import { connectDb } from "./config/Dbconnection.js";
+import express from "express";
+import multer from "multer";
+import cors from "cors";
+import path from "path";
+import connectDb from "./config/Dbconnection.js";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -40,45 +38,25 @@ app.get('/', (req, res) => {
     res.send('Backend is running!');
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const uploadDir = path.join(__dirname, 'upload/images');
-
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// Multer storage setup
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
+    destination: './upload/images',
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    },
+        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+    }
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
-app.use(cors());
-app.use('/images', express.static(uploadDir));
+// Serve static files for images
+app.use('/images', express.static('upload/images'));
 
 const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
-// Upload route
 app.post("/upload", upload.single('product'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ success: 0, message: "No file uploaded" });
-    }
     res.json({
         success: 1,
-        image_url: `${baseUrl}/images/${req.file.filename}`,
+        image_url: `${baseUrl}/images/${req.file.filename}`
     });
-});
-
-// 404 handler
-app.use((req, res, next) => {
-    res.status(404).json({ success: 0, message: "File not found" });
 });
 
 // Routes
