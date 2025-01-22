@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import cors from "cors";
 import path from "path";
+import fs from 'fs'
 import { connectDb } from "./config/Dbconnection.js";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
@@ -38,21 +39,42 @@ app.get('/', (req, res) => {
     res.send('Backend is running!');
 });
 
+const uploadDir = path.join(__dirname, 'upload/images');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true }); // Create directory if it doesn't exist
+}
+
+// Configure Multer storage
 const storage = multer.diskStorage({
-    destination: './upload/images',
+    destination: (req, file, cb) => {
+        cb(null, uploadDir); // Save files to the correct directory
+    },
     filename: (req, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!allowedTypes.includes(file.mimetype)) {
+            return cb(new Error('Only images are allowed'));
+        }
+        cb(null, true);
+    }
+});
 
 // Serve static files for images
-app.use('/images', express.static('upload/images'));
+app.use('/images', express.static(uploadDir));
 
 const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
-app.post("/upload", upload.single('product'), (req, res) => {
+// Image upload route
+app.post('/upload', upload.single('product'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ success: 0, message: 'No file uploaded' });
+    }
     res.json({
         success: 1,
         image_url: `${baseUrl}/images/${req.file.filename}`
