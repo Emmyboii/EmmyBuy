@@ -24,11 +24,14 @@ const AddProduct = () => {
 
     const imageHandler = (e) => {
         const selectedImage = e.target.files[0];
-        setImage(selectedImage);
-        setFormData((prev) => ({
-            ...prev,
-            Image: selectedImage, // Add the image file to the formData
-        }));
+        if (selectedImage) {
+            const previewURL = URL.createObjectURL(selectedImage); // Create a temporary URL for the image
+            setImage(selectedImage);
+            setFormData((prev) => ({
+                ...prev,
+                Image: previewURL, // Use the preview URL instead of the File object
+            }));
+        }
     };
 
     const Add_Product = async () => {
