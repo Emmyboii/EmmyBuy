@@ -90,7 +90,7 @@ const Item = (props) => {
                 ADD TO CART
             </button>
             <IoMdHeart
-                className={`absolute top-2 right-2 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'
+                className={`absolute top-2 right-2 text-2xl cursor-pointer z-50 ${isClicked ? 'text-orange-400' : 'text-transparent'
                     } hover:text-orange-400`}
                 style={{
                     stroke: isClicked ? 'orange' : 'red',

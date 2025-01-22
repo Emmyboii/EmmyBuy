@@ -103,10 +103,28 @@ const TodayDeal = () => {
         }
     }, [todayDeal]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (sliderRef.current) {
+                sliderRef.current.slickGoTo(0); // Ensure it resets to the first slide
+            }
+        };
+
+        // Adding the resize event listener
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup function
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+
     const settings = {
         infinite: false,
         dots: false,
         speed: 1000,
+        initialSlide: 0,
         slidesToShow: 5,
         slidesToScroll: 2,
         arrows: true,
