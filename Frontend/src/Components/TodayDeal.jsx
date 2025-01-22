@@ -10,7 +10,7 @@ import { AiFillTag } from "react-icons/ai";
 import HomeItems from './HomeItems';
 
 const CustomPrevArrow = ({ onClick, show, hidden }) => {
-    if (show === false) return null
+    if (show === false) return null;
     return (
         <div
             style={{
@@ -34,7 +34,7 @@ const CustomPrevArrow = ({ onClick, show, hidden }) => {
 };
 
 const CustomNextArrow = ({ onClick, show, hidden }) => {
-    if (show === false) return null
+    if (show === false) return null;
     return (
         <div
             style={{
@@ -61,12 +61,11 @@ const TodayDeal = () => {
     const [todayDeal, setTodayDeal] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [totalSlides, setTotalSlides] = useState(0);
-
     const [hovered, setHovered] = useState(false);
-
 
     const sliderRef = useRef(null);
 
+    // Fetch today's deal data with caching mechanism
     useEffect(() => {
         const cachedData = localStorage.getItem("todaysDeal");
         const now = new Date().getTime();
@@ -92,39 +91,33 @@ const TodayDeal = () => {
             });
     }, []);
 
-
+    // Recalculate total slides after rendering and handle resize
     useEffect(() => {
-        if (sliderRef.current && todayDeal.length > 0) {
-            // Delay recalculation to ensure slider has rendered
-            setTimeout(() => {
+        const updateSlideCount = () => {
+            if (sliderRef.current) {
                 const slides = sliderRef.current.innerSlider.props.children.length;
                 setTotalSlides(slides);
-            }, 100);
-        }
-    }, [todayDeal]);
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (sliderRef.current) {
-                sliderRef.current.slickGoTo(0); // Ensure it resets to the first slide
             }
         };
 
-        // Adding the resize event listener
+        updateSlideCount(); // Initial slide count calculation
+
+        const handleResize = () => {
+            updateSlideCount(); // Recalculate on window resize
+        };
+
         window.addEventListener('resize', handleResize);
 
-        // Cleanup function
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [todayDeal]);
 
-
+    // Slider settings
     const settings = {
         infinite: false,
         dots: false,
         speed: 1000,
-        initialSlide: 0,
         slidesToShow: 5,
         slidesToScroll: 2,
         arrows: true,
@@ -136,90 +129,18 @@ const TodayDeal = () => {
             <CustomPrevArrow show={hovered} hidden={currentSlide === 0} />
         ),
         responsive: [
-            {
-                breakpoint: 1150,
-                settings: {
-                    slidesToShow: 4.06,
-                    slidesToScroll: 2,
-                }
-            },
-            {
-                breakpoint: 1000,
-                settings: {
-                    slidesToShow: 3.7,
-                    slidesToScroll: 2,
-                }
-            },
-            {
-                breakpoint: 910,
-                settings: {
-                    slidesToShow: 3.3,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 800,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 750,
-                settings: {
-                    slidesToShow: 2.7,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 670,
-                settings: {
-                    slidesToShow: 2.4,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2.15,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 550,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 500,
-                settings: {
-                    slidesToShow: 1.7,
-                    slidesToScroll: 1
-                }
-            },
-            {
-                breakpoint: 450,
-                settings: {
-                    slidesToShow: 1.6,
-                    slidesToScroll: 1
-                }
-            },
-            {
-                breakpoint: 400,
-                settings: {
-                    slidesToShow: 1.45,
-                    slidesToScroll: 1
-                }
-            },
-            {
-                breakpoint: 350,
-                settings: {
-                    slidesToShow: 1.2,
-                    slidesToScroll: 1
-                }
-            },
+            { breakpoint: 1150, settings: { slidesToShow: 4.06, slidesToScroll: 2 } },
+            { breakpoint: 1000, settings: { slidesToShow: 3.7, slidesToScroll: 2 } },
+            { breakpoint: 910, settings: { slidesToShow: 3.3, slidesToScroll: 2 } },
+            { breakpoint: 800, settings: { slidesToShow: 3, slidesToScroll: 2 } },
+            { breakpoint: 750, settings: { slidesToShow: 2.7, slidesToScroll: 2 } },
+            { breakpoint: 670, settings: { slidesToShow: 2.4, slidesToScroll: 2 } },
+            { breakpoint: 600, settings: { slidesToShow: 2.15, slidesToScroll: 2 } },
+            { breakpoint: 550, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+            { breakpoint: 500, settings: { slidesToShow: 1.7, slidesToScroll: 1 } },
+            { breakpoint: 450, settings: { slidesToShow: 1.6, slidesToScroll: 1 } },
+            { breakpoint: 400, settings: { slidesToShow: 1.45, slidesToScroll: 1 } },
+            { breakpoint: 350, settings: { slidesToShow: 1.2, slidesToScroll: 1 } },
         ]
     };
 
