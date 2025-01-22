@@ -165,6 +165,36 @@ const AddProduct = () => {
                 </div>
             </div>
             {/* Categories */}
+            <div className='sk:flex gap-10'>
+                <div className='w-full text-[#7b7b7b] text-[18px]'>
+                    <p>Category</p>
+                    <select value={formData.Category} onChange={handleChange} name="Category" className='w-full h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
+                        <option value="Phone & Accessories">Phone & Accessories</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Drinks & Groceries">Drinks & Groceries</option>
+                        <option value="Gaming">Gaming</option>
+                        <option value="Appliances">Appliances</option>
+                    </select>
+                </div>
+                <div className='w-full text-[#7b7b7b] text-[18px]'>
+                    <p>Sub Category</p>
+                    <select value={formData.Sub_Category} onChange={handleChange} name="Sub_Category" className='w-full h-[50px] p-[10px] text-[14px] border-2 border-[#c3c3c3] rounded'>
+                        <option value="Mobile">Mobile</option>
+                        <option value="Tablet">Tablet</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Men">Men</option>
+                        <option value="Women">Women</option>
+                        <option value="Kids">Kids</option>
+                        <option value="Alcohol">Alcohol</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Soft_drink">Soft Drink</option>
+                        <option value="PlayStation">PlayStation</option>
+                        <option value="XBox">XBox</option>
+                        <option value="Small">Small</option>
+                        <option value="Large">Large</option>
+                    </select>
+                </div>
+            </div>
             {/* Mini Category and Items Left */}
             <div className="sk:flex gap-10">
                 <div className="w-full text-[#7b7b7b] text-[17px]">

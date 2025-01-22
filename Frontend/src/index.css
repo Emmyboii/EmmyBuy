@@ -15,7 +15,3 @@ body {
     background-color: #999;
     cursor: not-allowed;
 }
-
-.slick-slide>div {
-    margin: 0 3px;
-}
