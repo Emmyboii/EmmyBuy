@@ -51,7 +51,7 @@ const HomeItems = (props) => {
                 onClick={handleProductClick}
                 className="flex-grow flex flex-col justify-between"
             >
-                <div className="bg-white hover:shadow-xl px-2 py-[2px] flex-grow flex flex-col justify-between">
+                <div className="bg-white hover:shadow-xl px-2 py-[2px] flex-grow flex flex-col justify-between" style={{ minHeight: '100%' }}>
                     <div className="flex-grow flex flex-col justify-between">
                         <div>
                             <div className="h-[200px] overflow-hidden">
