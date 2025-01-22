@@ -66,17 +66,31 @@ const ProductList = () => {
                     {product.map((item, i) => {
                         return (
                             <div key={i} className='border-x-2 border-y-2 border-black'>
-                                <div className="grid lg:grid-cols-12 grid-cols-10  " >
+                                <div className="grid lg:grid-cols-12 grid-cols-10" >
                                     <p className='col-span-1 border-r-2 border-black flex justify-center items-center'>{item.id}</p>
                                     <div className="lg:col-span-2 col-span-1 border-r-2 border-black flex justify-center items-center">
-                                        <img src={item.Image} alt="" className="lg:w-[50%] object-contain" />
+                                        <Link
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            to={`${localStorage.getItem('Image_URL')}`}
+                                        >
+                                            <img src={item.Image} alt="" className="lg:w-[50%] object-contain" />
+                                        </Link>
                                     </div>
                                     <p className='lg:col-span-4 col-span-3 border-r-2 border-black flex justify-center items-center text-[15px]'>{item.Name}</p>
                                     {item.Old_price ? <p className='col-span-1 border-r-2 border-black flex justify-center items-center'>{item.Old_price}</p> : <p className='border-r-2 border-black flex justify-center items-center'>-</p>}
                                     <p className='col-span-1 border-r-2 border-black flex justify-center items-center'>{item.New_price}</p>
                                     <p className='col-span-1 border-r-2 border-black flex justify-center items-center'>{item.Items_left}</p>
-                                    <Link onClick={() => onClickEdit(item.id)} className='col-span-1 border-r-2 border-black flex justify-center items-center cursor-pointer' to={'/editproduct'}>
-                                        <p className='flex mp:flex-row flex-col items-center gap-1'><FaRegEdit /> Edit</p>
+                                    <Link
+                                        onClick={() => onClickEdit(item.id)}
+                                        className="col-span-1 border-r-2 border-black flex justify-center items-center cursor-pointer"
+                                        to="/editproduct"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <p className="flex mp:flex-row flex-col items-center gap-1">
+                                            <FaRegEdit /> Edit
+                                        </p>
                                     </Link>
                                     <p onClick={onClick} className='col-span-1 flex justify-center items-center cursor-pointer'><img src={Cross_Icon} alt="" /></p>
                                 </div>

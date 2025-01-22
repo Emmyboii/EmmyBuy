@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
 
@@ -44,7 +45,13 @@ const Display = (props) => {
     return (
         <div className='flex flex-col md:flex-row w-full gap-4 px-4'>
             <div className='bg-white flex flex-col md:flex-row gap-6 py-6 w-full md:max-w-[70%] px-6 rounded-lg shadow-md'>
-                <img src={product.Image} alt={product.Name} className='object-contain md:w-[40%] w-full rounded-lg' />
+                <Link
+                    to={product.Image}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <img src={product.Image} alt={product.Name} className='object-contain md:w-[40%] w-full rounded-lg' />
+                </Link>
                 <hr className='md:hidden block' />
                 <div className='flex flex-col gap-4 w-full'>
                     <h1 className='text-2xl font-bold'>{product.Name}</h1>
@@ -68,7 +75,7 @@ const Display = (props) => {
                     )}
 
                     <div className='flex gap-4'>
-                        <button 
+                        <button
                             onClick={() => {
                                 addToCart(product.id);
                                 setCartModal(true);
@@ -76,9 +83,9 @@ const Display = (props) => {
                             className='bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg w-full font-bold'>
                             ADD TO CART
                         </button>
-                        <IoMdHeart 
-                            className={`text-3xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-gray-300'} hover:text-orange-500`} 
-                            onClick={handleClick} 
+                        <IoMdHeart
+                            className={`text-3xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-gray-300'} hover:text-orange-500`}
+                            onClick={handleClick}
                         />
                     </div>
                 </div>

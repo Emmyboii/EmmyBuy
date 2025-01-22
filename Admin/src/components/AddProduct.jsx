@@ -36,6 +36,7 @@ const AddProduct = () => {
 
     const Add_Product = async () => {
         console.log(formData);
+        localStorage.setItem('Image_URL', product.Image)
         let responseData;
         const product = { ...formData };
         const productData = new FormData();
