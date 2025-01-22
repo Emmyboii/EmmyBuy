@@ -68,14 +68,15 @@ const ProductList = () => {
                             <div key={i} className='border-x-2 border-y-2 border-black'>
                                 <div className="grid lg:grid-cols-12 grid-cols-10" >
                                     <p className='col-span-1 border-r-2 border-black flex justify-center items-center'>{item.id}</p>
-                                    <Link
-                                        to={item.Image}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="lg:col-span-2 col-span-1 border-r-2 border-black flex justify-center items-center mx-auto"
-                                    >
-                                        <img src={item.Image} alt="" className="lg:w-[50%] flex items-center justify-center mx-auto object-contain" />
-                                    </Link>
+                                    <div className="lg:col-span-2 col-span-1 border-r-2 border-black flex justify-center items-center mx-auto">
+                                        <Link
+                                            to={item.Image}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <img src={item.Image} alt="" className="lg:w-[50%] flex items-center justify-center object-contain" />
+                                        </Link>
+                                    </div>
                                     <p className='lg:col-span-4 col-span-3 border-r-2 border-black flex justify-center items-center text-[15px]'>{item.Name}</p>
                                     {item.Old_price ? <p className='col-span-1 border-r-2 border-black flex justify-center items-center'>{item.Old_price}</p> : <p className='border-r-2 border-black flex justify-center items-center'>-</p>}
                                     <p className='col-span-1 border-r-2 border-black flex justify-center items-center'>{item.New_price}</p>
