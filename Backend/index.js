@@ -3,10 +3,14 @@ import multer from "multer";
 import cors from "cors";
 import path from "path";
 import fs from 'fs'
+import { fileURLToPath } from 'url';
 import { connectDb } from "./config/Dbconnection.js";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
