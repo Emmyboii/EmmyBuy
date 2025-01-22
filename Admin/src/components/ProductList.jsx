@@ -74,7 +74,7 @@ const ProductList = () => {
                                             rel="noopener noreferrer"
                                             to={`${localStorage.getItem('Image_URL')}`}
                                         >
-                                            <img src={item.Image} alt="" className="lg:w-[50%] object-contain" />
+                                            <img src={item.Image} alt="" className="lg:w-[50%] flex items-center justify-center object-contain" />
                                         </Link>
                                     </div>
                                     <p className='lg:col-span-4 col-span-3 border-r-2 border-black flex justify-center items-center text-[15px]'>{item.Name}</p>
