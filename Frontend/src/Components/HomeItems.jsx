@@ -51,10 +51,14 @@ const HomeItems = (props) => {
         const maxItem = 50;
         const percentage = (props.Items_left / maxItem) * 100
         return (
-            <div className='w-[240px] p-2 bg-white relative'>
-                <Link to={`/product/${props.id}`} onClick={handleProductClick}>
+            <div className='w-[240px] p-2 bg-white relative duration-300 flex flex-col justify-between h-full'>
+                <Link
+                    to={`/product/${props.id}`}
+                    onClick={handleProductClick}
+                    className="flex-grow flex flex-col justify-between"
+                >
                     <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px]'>
-                        <div className=''>
+                        <div>
                             <img src={props.Image} alt={`${props.Name}`} className='w-full' />
                         </div>
                         <p className='my-3 line-clamp-[2]'>{props.Name}</p>
@@ -85,10 +89,14 @@ const HomeItems = (props) => {
         const maxItem = 150;
         const percentage = (props.Items_left / maxItem) * 100
         return (
-            <div className='w-[240px] p-2 bg-white relative'>
-                <Link to={`/product/${props.id}`} onClick={handleProductClick}>
+            <div className='w-[240px] p-2 bg-white duration-300 relative flex flex-col justify-between h-full'>
+                <Link
+                    to={`/product/${props.id}`}
+                    onClick={handleProductClick}
+                    className="flex-grow flex flex-col justify-between"
+                >
                     <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px]'>
-                        <div className=''>
+                        <div>
                             <img src={props.Image} alt={`${props.Name}`} className='w-full' />
                         </div>
                         <p className='my-3 line-clamp-[2]'>{props.Name}</p>
