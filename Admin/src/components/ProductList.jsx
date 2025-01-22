@@ -85,8 +85,6 @@ const ProductList = () => {
                                         onClick={() => onClickEdit(item.id)}
                                         className="col-span-1 border-r-2 border-black flex justify-center items-center cursor-pointer"
                                         to="/editproduct"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
                                     >
                                         <p className="flex mp:flex-row flex-col items-center gap-1">
                                             <FaRegEdit /> Edit
