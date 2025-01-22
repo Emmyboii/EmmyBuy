@@ -109,15 +109,17 @@ const AcctInfo = () => {
 
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/user/getUsers`, {
-            method: 'GET',
-            credentials: "include",
-            headers: {
-                Accept: 'application/json',
-                'token': `${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json'
-            }
-        }).then((res) => res.json()).then((data) => setFormData(data))
+        if (localStorage.getItem('token')) {
+            fetch(`${process.env.REACT_APP_API_URL}/user/getUsers`, {
+                method: 'GET',
+                credentials: "include",
+                headers: {
+                    Accept: 'application/json',
+                    'token': `${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => res.json()).then((data) => setFormData(data))
+        }
     }, [])
 
     useEffect(() => {

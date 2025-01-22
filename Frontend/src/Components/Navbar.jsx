@@ -15,14 +15,16 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/user/getUsers`, {
-      method: 'GET',
-      credentials: "include",
-      headers: {
-        'token': `${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json'
-      },
-    }).then((res) => res.json()).then((data) => setUserData(data))
+    if (localStorage.getItem('token')) {
+      fetch(`${process.env.REACT_APP_API_URL}/user/getUsers`, {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+          'token': `${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+      }).then((res) => res.json()).then((data) => setUserData(data))
+    }
   }, [])
 
   const [userData, setUserData] = useState({
