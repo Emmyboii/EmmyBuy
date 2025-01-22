@@ -114,18 +114,10 @@ const TodayDeal = () => {
             <CustomPrevArrow show={hovered} hidden={currentSlide === 0} />
         ),
         responsive: [
-            { breakpoint: 1150, settings: { slidesToShow: 4.06, slidesToScroll: 2 } },
-            { breakpoint: 1000, settings: { slidesToShow: 3.7, slidesToScroll: 2 } },
-            { breakpoint: 910, settings: { slidesToShow: 3.3, slidesToScroll: 2 } },
-            { breakpoint: 800, settings: { slidesToShow: 3, slidesToScroll: 2 } },
-            { breakpoint: 750, settings: { slidesToShow: 2.7, slidesToScroll: 2 } },
-            { breakpoint: 670, settings: { slidesToShow: 2.4, slidesToScroll: 2 } },
-            { breakpoint: 600, settings: { slidesToShow: 2.15, slidesToScroll: 2 } },
-            { breakpoint: 550, settings: { slidesToShow: 2, slidesToScroll: 2 } },
-            { breakpoint: 500, settings: { slidesToShow: 1.7, slidesToScroll: 1 } },
-            { breakpoint: 450, settings: { slidesToShow: 1.6, slidesToScroll: 1 } },
-            { breakpoint: 400, settings: { slidesToShow: 1.45, slidesToScroll: 1 } },
-            { breakpoint: 350, settings: { slidesToShow: 1.2, slidesToScroll: 1 } },
+            { breakpoint: 1150, settings: { slidesToShow: 4, slidesToScroll: 2 } },
+            { breakpoint: 910, settings: { slidesToShow: 3, slidesToScroll: 2 } },
+            { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+            { breakpoint: 450, settings: { slidesToShow: 1, slidesToScroll: 1 } },
         ]
     };
 
