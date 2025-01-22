@@ -181,7 +181,7 @@ const ShopCategory = (props) => {
                         <p className='text-[21px] font-bold'>Brands</p>
                         {[...new Set(
                             allProduct
-                                .filter(item => item.Category === props.Category)
+                                .filter(item => item.Category === props.Category && item.Brand.trim() !== "")
                                 .map(item => item.Brand)
                         )].map((brand, i) => {
                             if (selectedSubCategory) {

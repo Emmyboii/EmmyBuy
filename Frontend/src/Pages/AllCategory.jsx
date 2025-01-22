@@ -136,12 +136,12 @@ const AllCategory = (props) => {
                         <p className='text-[21px] font-bold'>Brands</p>
                         {[...new Set(
                             allProduct
-                                .filter(item => item.Category)
+                                .filter(item => item.Category && item.Brand.trim() !== "")
                                 .map(item => item.Brand)
                         )].map((brand, i) => {
                             if (selectedSubCategory) {
                                 // If a sub-category is selected, only show brands with products in that sub-category
-                                if (brandHasProducts(brand).length > 0) {
+                                if (brandHasProducts(brand)) {
                                     return (
                                         <div key={i}>
                                             <label className='flex gap-1 ml-5'>

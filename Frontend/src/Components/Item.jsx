@@ -51,38 +51,53 @@ const Item = (props) => {
     }, [saveItem, setSavedModal]);
 
     return (
-        <div className='xl:w-[230px] lg:w-[194px] md:w-[210px] rounded-md bg-white hover:scale-[1.02] py-2 px-1 duration-300 relative'>
-            <Link to={`/product/${props.id}`} onClick={handleProductClick}>
+        <div className="xl:w-[230px] lg:w-[194px] md:w-[210px] rounded-md bg-white hover:scale-[1.02] py-2 px-1 duration-300 relative flex flex-col h-full">
+            <Link
+                to={`/product/${props.id}`}
+                onClick={handleProductClick}
+                className="flex-grow"
+            >
                 <div>
-                    <img src={props.Image} alt={`${props.Name}`} className='w-full' />
-                    <p className='my-3 line-clamp-[2]'>{props.Name}</p>
-                    <div className='flex gap-1 sd:text-[18px] text-[16px] font-semibold'>
-                        <p className='flex items-center'><TbCurrencyNaira className='sd:text-[21px]' /> {props.New_price}</p>
-                        {props.Old_price > 0 ? (
-                            <p className='line-through text-[#a19f9f] flex items-center font-medium'><TbCurrencyNaira className='text-[21px]' /> {props.Old_price}</p>
-                        ) : ""}
+                    <img
+                        src={props.Image}
+                        alt={`${props.Name}`}
+                        className="w-full"
+                    />
+                    <p className="my-3 line-clamp-[2]">{props.Name}</p>
+                    <div className="flex gap-1 sd:text-[18px] text-[16px] font-semibold">
+                        <p className="flex items-center">
+                            <TbCurrencyNaira className="sd:text-[21px]" />{' '}
+                            {props.New_price}
+                        </p>
+                        {props.Old_price > 0 && (
+                            <p className="line-through text-[#a19f9f] flex items-center font-medium">
+                                <TbCurrencyNaira className="text-[21px]" />{' '}
+                                {props.Old_price}
+                            </p>
+                        )}
                     </div>
                 </div>
             </Link>
-            <button onClick={() => {
-                addToCart(props.id)
-                setCartModal(true)
-            }}
-                className='bg-orange-500 h-[50px] w-full text-white font-bold mt-3'
+            <button
+                onClick={() => {
+                    addToCart(props.id);
+                    setCartModal(true);
+                }}
+                className="bg-orange-500 h-[50px] w-full text-white font-bold mt-3"
             >
                 ADD TO CART
             </button>
             <IoMdHeart
-                className={`absolute top-1 right-[4px] text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'} hover:text-orange-400`}
+                className={`absolute top-1 right-[4px] text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'
+                    } hover:text-orange-400`}
                 style={{
-                    stroke: isClicked ? "orange" : "red",
+                    stroke: isClicked ? 'orange' : 'red',
                     strokeWidth: 16,
                 }}
                 onClick={handleClick}
             />
-
-        </div >
-    )
+        </div>
+    );
 }
 
 export default Item
