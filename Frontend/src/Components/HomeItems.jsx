@@ -45,7 +45,7 @@ const HomeItems = (props) => {
     const percentage = (props.Items_left / maxItem) * 100;
 
     return (
-        <div className="w-[200px] p-2 bg-white relative flex flex-col justify-between h-full">
+        <div className="w-full p-2 bg-white relative flex flex-col justify-between h-full">
             <Link
                 to={`/product/${props.id}`}
                 onClick={handleProductClick}
