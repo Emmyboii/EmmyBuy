@@ -51,9 +51,9 @@ const HomeItems = (props) => {
                 onClick={handleProductClick}
                 className="flex-grow flex flex-col justify-between"
             >
-                <div className="bg-white hover:shadow-xl px-2 py-[2px] flex-grow flex flex-col justify-between" style={{ minHeight: '100%' }}>
+                <div className="bg-white hover:shadow-xl px-2 py-[2px] flex flex-col justify-between h-full">
                     <div className="flex-grow flex flex-col justify-between">
-                        <div>
+                        <div className="flex-grow">
                             <div className="h-[200px] overflow-hidden">
                                 <img
                                     src={props.Image}
@@ -63,7 +63,7 @@ const HomeItems = (props) => {
                             </div>
                             <p className="my-3 line-clamp-2 text-sm font-medium">{props.Name}</p>
                         </div>
-                        <div>
+                        <div className="flex-grow">
                             <div className="flex gap-2 text-[18px] font-semibold">
                                 <p className="flex items-center"><TbCurrencyNaira className="text-[21px]" /> {props.New_price}</p>
                                 {props.Old_price > 0 && (
@@ -73,7 +73,7 @@ const HomeItems = (props) => {
                                 )}
                             </div>
                         </div>
-                        <div>
+                        <div className="flex-grow">
                             <p className="text-sm">{props.Items_left} items left</p>
                             <div className="w-full h-[10px] bg-[#e0e0e0] rounded-md">
                                 <div
@@ -82,7 +82,6 @@ const HomeItems = (props) => {
                                 ></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </Link>
