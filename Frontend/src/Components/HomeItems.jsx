@@ -53,30 +53,36 @@ const HomeItems = (props) => {
             >
                 <div className="bg-white hover:shadow-xl px-2 py-[2px] flex-grow flex flex-col justify-between">
                     <div className="flex-grow flex flex-col justify-between">
-                        {/* Image with fixed height */}
-                        <div className="h-[200px] overflow-hidden">
-                            <img
-                                src={props.Image}
-                                alt={props.Name}
-                                className="w-full h-full object-cover"
-                            />
+                        <div>
+                            <div className="h-[200px] overflow-hidden">
+                                <img
+                                    src={props.Image}
+                                    alt={props.Name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            <p className="my-3 line-clamp-2 text-sm font-medium">{props.Name}</p>
                         </div>
-                        <p className="my-3 line-clamp-2 text-sm font-medium">{props.Name}</p>
-                        <div className="flex gap-2 text-[18px] font-semibold">
-                            <p className="flex items-center"><TbCurrencyNaira className="text-[21px]" /> {props.New_price}</p>
-                            {props.Old_price > 0 && (
-                                <p className="line-through text-[#a19f9f] flex items-center font-medium">
-                                    <TbCurrencyNaira className="text-[21px]" /> {props.Old_price}
-                                </p>
-                            )}
+                        <div>
+                            <div className="flex gap-2 text-[18px] font-semibold">
+                                <p className="flex items-center"><TbCurrencyNaira className="text-[21px]" /> {props.New_price}</p>
+                                {props.Old_price > 0 && (
+                                    <p className="line-through text-[#a19f9f] flex items-center font-medium">
+                                        <TbCurrencyNaira className="text-[21px]" /> {props.Old_price}
+                                    </p>
+                                )}
+                            </div>
                         </div>
-                        <p className="text-sm">{props.Items_left} items left</p>
-                        <div className="w-full h-[10px] bg-[#e0e0e0] rounded-md">
-                            <div
-                                className={`h-full rounded-md ${percentage > 40 ? "bg-green-500" : "bg-red-500"}`}
-                                style={{ width: `${percentage}%` }}
-                            ></div>
+                        <div>
+                            <p className="text-sm">{props.Items_left} items left</p>
+                            <div className="w-full h-[10px] bg-[#e0e0e0] rounded-md">
+                                <div
+                                    className={`h-full rounded-md ${percentage > 40 ? "bg-green-500" : "bg-red-500"}`}
+                                    style={{ width: `${percentage}%` }}
+                                ></div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </Link>
