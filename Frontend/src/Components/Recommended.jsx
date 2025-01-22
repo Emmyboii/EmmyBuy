@@ -68,17 +68,26 @@ const Recommended = () => {
 
     useEffect(() => {
         const cachedData = localStorage.getItem('recommendedItems')
-        if (cachedData) {
-            setRecommend(JSON.parse(cachedData));
-        } else {
+        const now = new Date().getTime();
 
-            fetch(`${process.env.REACT_APP_API_URL}/product/reommendedHome`)
-                .then((res) => res.json())
-                .then((data) => {
-                    setRecommend(data)
-                    localStorage.setItem('recommendedItems', JSON.stringify(data))
-                })
+        if (cachedData) {
+            const { data, timestamp } = JSON.parse(cachedData);
+
+            // Check if 24 hours have passed since the data was cached
+            if (now - timestamp < 24 * 60 * 60 * 1000) {
+                setRecommend(data); // Use the cached data if still valid
+                return;
+            }
         }
+
+        fetch(`${process.env.REACT_APP_API_URL}/product/reommendedHome`)
+            .then((res) => res.json())
+            .then((data) => {
+                setRecommend(data)
+                localStorage.setItem(
+                    'recommendedItems',
+                    JSON.stringify({ data, timestamp: now }))
+            })
     }, [])
 
     useEffect(() => {
