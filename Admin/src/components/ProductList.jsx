@@ -72,7 +72,7 @@ const ProductList = () => {
                                         <Link
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            to={`${localStorage.getItem('Image_URL')}`}
+                                            to={product.Image}
                                         >
                                             <img src={item.Image} alt="" className="lg:w-[50%] flex items-center justify-center object-contain" />
                                         </Link>

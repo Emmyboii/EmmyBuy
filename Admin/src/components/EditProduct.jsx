@@ -103,7 +103,6 @@ const EditProduct = () => {
             } else {
                 alert('Failed to Update Product');
             }
-            localStorage.setItem('Image_URL', product.Image)
         } catch (error) {
             console.error('Error updating product:', error);
             alert('An error occurred while updating the product.');
