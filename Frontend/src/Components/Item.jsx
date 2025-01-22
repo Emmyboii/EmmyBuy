@@ -63,10 +63,10 @@ const Item = (props) => {
                         alt={`${props.Name}`}
                         className="w-full"
                     />
-                    <p className="my-3 line-clamp-[2] text-center">{props.Name}</p>
+                    <p className="my-3 line-clamp-[2]">{props.Name}</p>
                 </div>
                 <div className="mt-auto">
-                    <div className="flex gap-1 justify-center sd:text-[18px] text-[16px] font-semibold">
+                    <div className="flex gap-1 sd:text-[18px] text-[16px] font-semibold">
                         <p className="flex items-center">
                             <TbCurrencyNaira className="sd:text-[21px]" />
                             {props.New_price}
