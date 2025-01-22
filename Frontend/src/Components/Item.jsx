@@ -51,11 +51,11 @@ const Item = (props) => {
     }, [saveItem, setSavedModal]);
 
     return (
-        <div className="xl:w-[230px] lg:w-[194px] md:w-[210px] rounded-md bg-white hover:scale-[1.02] py-2 px-1 duration-300 relative flex flex-col h-full">
+        <div className="xl:w-[230px] lg:w-[194px] md:w-[210px] rounded-md bg-white hover:scale-[1.02] py-4 px-3 duration-300 relative flex flex-col justify-between h-full">
             <Link
                 to={`/product/${props.id}`}
                 onClick={handleProductClick}
-                className="flex-grow"
+                className="flex-grow flex flex-col justify-between"
             >
                 <div>
                     <img
@@ -63,15 +63,17 @@ const Item = (props) => {
                         alt={`${props.Name}`}
                         className="w-full"
                     />
-                    <p className="my-3 line-clamp-[2]">{props.Name}</p>
-                    <div className="flex gap-1 sd:text-[18px] text-[16px] font-semibold">
+                    <p className="my-3 line-clamp-[2] text-center">{props.Name}</p>
+                </div>
+                <div className="mt-auto">
+                    <div className="flex gap-1 justify-center sd:text-[18px] text-[16px] font-semibold">
                         <p className="flex items-center">
-                            <TbCurrencyNaira className="sd:text-[21px]" />{' '}
+                            <TbCurrencyNaira className="sd:text-[21px]" />
                             {props.New_price}
                         </p>
                         {props.Old_price > 0 && (
                             <p className="line-through text-[#a19f9f] flex items-center font-medium">
-                                <TbCurrencyNaira className="text-[21px]" />{' '}
+                                <TbCurrencyNaira className="text-[21px]" />
                                 {props.Old_price}
                             </p>
                         )}
@@ -88,7 +90,7 @@ const Item = (props) => {
                 ADD TO CART
             </button>
             <IoMdHeart
-                className={`absolute top-1 right-[4px] text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'
+                className={`absolute top-2 right-2 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'
                     } hover:text-orange-400`}
                 style={{
                     stroke: isClicked ? 'orange' : 'red',
