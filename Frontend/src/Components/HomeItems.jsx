@@ -1,25 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { ShopContext } from '../Context/ShopContext'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState, useEffect } from 'react';
+import { ShopContext } from '../Context/ShopContext';
+import { Link } from 'react-router-dom';
 import { IoMdHeart } from "react-icons/io";
 import { TbCurrencyNaira } from "react-icons/tb";
 
 const HomeItems = (props) => {
-
-    const { saveItem, removeSaveItem, setSavedModal, setSavedRemoveModal } = useContext(ShopContext)
-
-
+    const { saveItem, removeSaveItem, setSavedModal, setSavedRemoveModal } = useContext(ShopContext);
     const [isClicked, setIsClicked] = useState(false);
-
 
     const handleClick = () => {
         const token = localStorage.getItem('token');
-
         if (!token) {
             localStorage.setItem('pendingSaveItem', props.id);
-            window.location.replace('/login')
+            window.location.replace('/login');
         } else {
-            if (isClicked === false) {
+            if (!isClicked) {
                 setIsClicked(true);
                 saveItem(props.id);
                 setSavedModal(true);
@@ -35,11 +30,9 @@ const HomeItems = (props) => {
         window.scrollTo(0, 0);
     };
 
-    // Check after Login for Pending Save Item
     useEffect(() => {
         const token = localStorage.getItem('token');
         const pendingItemId = localStorage.getItem('pendingSaveItem');
-
         if (token && pendingItemId) {
             saveItem(pendingItemId);
             setSavedModal(true);
@@ -47,82 +40,60 @@ const HomeItems = (props) => {
         }
     }, [saveItem, setSavedModal]);
 
+    const renderCardContent = (maxItem) => {
+        const percentage = (props.Items_left / maxItem) * 100;
+        return (
+            <div className="flex flex-col justify-between h-full">
+                <Link to={`/product/${props.id}`} onClick={handleProductClick} className="flex-grow">
+                    <div className="bg-white hover:shadow-xl p-2 duration-300 flex flex-col h-full">
+                        <img src={props.Image} alt={`${props.Name}`} className="w-full" />
+                        <p className="my-3 font-medium line-clamp-2">{props.Name}</p>
+                        <div className="flex gap-2 text-[18px] font-semibold">
+                            <p className="flex items-center">
+                                <TbCurrencyNaira className="text-[21px]" /> {props.New_price}
+                            </p>
+                            {props.Old_price > 0 && (
+                                <p className="line-through text-[#a19f9f] flex items-center font-medium">
+                                    <TbCurrencyNaira className="text-[21px]" /> {props.Old_price}
+                                </p>
+                            )}
+                        </div>
+                        <p className="text-center">{props.Items_left} items left</p>
+                        <div className="w-full h-[10px] bg-[#e0e0e0] rounded-md">
+                            <div
+                                className={`h-full rounded-md ${percentage > maxItem / 2 ? 'bg-green-500' : 'bg-red-500'
+                                    }`}
+                                style={{ width: `${percentage}%` }}
+                            ></div>
+                        </div>
+                    </div>
+                </Link>
+                <IoMdHeart
+                    className={`absolute top-1 right-4 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'
+                        } hover:text-orange-400`}
+                    style={{
+                        stroke: isClicked ? 'orange' : 'red',
+                        strokeWidth: 16,
+                    }}
+                    onClick={handleClick}
+                />
+            </div>
+        );
+    };
+
     if (props.Items_left < 50) {
-        const maxItem = 50;
-        const percentage = (props.Items_left / maxItem) * 100
         return (
-            <div className='w-[240px] p-2 bg-white relative duration-300 flex flex-col justify-between h-full'>
-                <Link
-                    to={`/product/${props.id}`}
-                    onClick={handleProductClick}
-                >
-                    <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px] flex-grow flex flex-col justify-between'>
-                        <div>
-                            <img src={props.Image} alt={`${props.Name}`} className='w-full' />
-                        </div>
-                        <p className='my-3 line-clamp-[2]'>{props.Name}</p>
-                        <div className='flex gap-2 text-[18px] font-semibold'>
-                            <p className='flex items-center'><TbCurrencyNaira className='text-[21px]' /> {props.New_price}</p>
-                            {props.Old_price > 0 ? (
-                                <p className='line-through text-[#a19f9f] flex items-center font-medium'><TbCurrencyNaira className='text-[21px]' /> {props.Old_price}</p>
-                            ) : ""}
-                        </div>
-                        <p className=''>{props.Items_left} items left</p>
-                        <div className='w-full h-[10px] bg-[#e0e0e0] rounded-md'>
-                            <div className={`h-full rounded-md ${percentage > 35 ? "bg-green-500" : "bg-red-500"
-                                }`}
-                                style={{ width: `${percentage}%` }}></div>
-                        </div>
-                    </div>
-                </Link >
-                <IoMdHeart className={`absolute top-1 right-4 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'} hover:text-orange-400`}
-                    style={{
-                        stroke: isClicked ? "orange" : "red",
-                        strokeWidth: 16,
-                    }}
-                    onClick={handleClick}
-                />
-            </div >
-        )
+            <div className="w-[240px] p-2 bg-white relative flex flex-col justify-between h-full">
+                {renderCardContent(50)}
+            </div>
+        );
     } else if (props.Items_left < 150) {
-        const maxItem = 150;
-        const percentage = (props.Items_left / maxItem) * 100
         return (
-            <div className='w-[240px] p-2 bg-white duration-300 relative flex flex-col justify-between h-full'>
-                <Link
-                    to={`/product/${props.id}`}
-                    onClick={handleProductClick}
-                >
-                    <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px] flex-grow flex flex-col justify-between'>
-                        <div>
-                            <img src={props.Image} alt={`${props.Name}`} className='w-full' />
-                        </div>
-                        <p className='my-3 line-clamp-[2]'>{props.Name}</p>
-                        <div className='flex gap-2 text-[18px] font-semibold'>
-                            <p className='flex items-center'><TbCurrencyNaira className='text-[21px]' /> {props.New_price}</p>
-                            {props.Old_price > 0 ? (
-                                <p className='line-through text-[#a19f9f] flex items-center font-medium'><TbCurrencyNaira className='text-[21px]' /> {props.Old_price}</p>
-                            ) : ""}
-                        </div>
-                        <p className=''>{props.Items_left} items left</p>
-                        <div className='w-full h-[10px] bg-[#e0e0e0] rounded-md'>
-                            <div className={`h-full rounded-md ${percentage > 40 ? "bg-green-500" : "bg-red-500"
-                                }`}
-                                style={{ width: `${percentage}%` }}></div>
-                        </div>
-                    </div>
-                </Link >
-                <IoMdHeart className={`absolute top-1 right-4 text-2xl cursor-pointer ${isClicked ? 'text-orange-400' : 'text-transparent'} hover:text-orange-400`}
-                    style={{
-                        stroke: isClicked ? "orange" : "red",
-                        strokeWidth: 16,
-                    }}
-                    onClick={handleClick}
-                />
-            </div >
-        )
+            <div className="w-[240px] p-2 bg-white relative flex flex-col justify-between h-full">
+                {renderCardContent(150)}
+            </div>
+        );
     }
+};
 
-}
-
-export default HomeItems
+export default HomeItems;
