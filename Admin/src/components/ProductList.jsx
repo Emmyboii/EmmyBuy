@@ -68,13 +68,13 @@ const ProductList = () => {
                             <div key={i} className='border-x-2 border-y-2 border-black'>
                                 <div className="grid lg:grid-cols-12 grid-cols-10" >
                                     <p className='col-span-1 border-r-2 border-black flex justify-center items-center'>{item.id}</p>
-                                    <div className="lg:col-span-2 col-span-1 border-r-2 border-black flex justify-center items-center mx-auto">
+                                    <div className="lg:col-span-2 col-span-1 border-r-2 border-black flex justify-center items-center">
                                         <Link
                                             to={item.Image}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
-                                            <img src={item.Image} alt="" className="lg:w-[50%] flex items-center justify-center object-contain" />
+                                            <img src={item.Image} alt="" className="lg:w-[50%] flex items-center justify-center mx-auto object-contain" />
                                         </Link>
                                     </div>
                                     <p className='lg:col-span-4 col-span-3 border-r-2 border-black flex justify-center items-center text-[15px]'>{item.Name}</p>
