@@ -91,24 +91,10 @@ const Recommended = () => {
     }, [])
 
     useEffect(() => {
-        const updateSlideCount = () => {
-            if (sliderRef.current) {
-                const slides = sliderRef.current.innerSlider.props.children.length;
-                setTotalSlides(slides);
-            }
-        };
-
-        updateSlideCount(); // Initial slide count calculation
-
-        const handleResize = () => {
-            updateSlideCount(); // Recalculate on window resize
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+        if (recommend.length > 0) {
+            const slideCount = recommend.length;
+            setTotalSlides(slideCount); // Set the total number of slides directly from the data
+        }
     }, [recommend]);
 
 

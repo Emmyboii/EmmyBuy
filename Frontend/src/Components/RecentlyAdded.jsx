@@ -75,24 +75,10 @@ const RecentlyAdded = () => {
     }, [])
 
     useEffect(() => {
-        const updateSlideCount = () => {
-            if (sliderRef.current) {
-                const slides = sliderRef.current.innerSlider.props.children.length;
-                setTotalSlides(slides);
-            }
-        };
-
-        updateSlideCount(); // Initial slide count calculation
-
-        const handleResize = () => {
-            updateSlideCount(); // Recalculate on window resize
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+        if (recentlyAdded.length > 0) {
+            const slideCount = recentlyAdded.length;
+            setTotalSlides(slideCount); // Set the total number of slides directly from the data
+        }
     }, [recentlyAdded]);
 
     const settings = {

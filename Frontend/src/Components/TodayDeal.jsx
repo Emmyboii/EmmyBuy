@@ -91,26 +91,11 @@ const TodayDeal = () => {
             });
     }, []);
 
-    // Recalculate total slides after rendering and handle resize
     useEffect(() => {
-        const updateSlideCount = () => {
-            if (sliderRef.current) {
-                const slides = sliderRef.current.innerSlider.props.children.length;
-                setTotalSlides(slides);
-            }
-        };
-
-        updateSlideCount(); // Initial slide count calculation
-
-        const handleResize = () => {
-            updateSlideCount(); // Recalculate on window resize
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+        if (todayDeal.length > 0) {
+            const slideCount = todayDeal.length;
+            setTotalSlides(slideCount); // Set the total number of slides directly from the data
+        }
     }, [todayDeal]);
 
     // Slider settings
