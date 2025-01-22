@@ -55,9 +55,8 @@ const HomeItems = (props) => {
                 <Link
                     to={`/product/${props.id}`}
                     onClick={handleProductClick}
-                    className="flex-grow flex flex-col justify-between"
                 >
-                    <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px]'>
+                    <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px] flex-grow flex flex-col justify-between'>
                         <div>
                             <img src={props.Image} alt={`${props.Name}`} className='w-full' />
                         </div>
@@ -93,9 +92,8 @@ const HomeItems = (props) => {
                 <Link
                     to={`/product/${props.id}`}
                     onClick={handleProductClick}
-                    className="flex-grow flex flex-col justify-between"
                 >
-                    <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px]'>
+                    <div className='bg-white hover:shadow-xl px-2 duration-300 py-[2px] flex-grow flex flex-col justify-between'>
                         <div>
                             <img src={props.Image} alt={`${props.Name}`} className='w-full' />
                         </div>
