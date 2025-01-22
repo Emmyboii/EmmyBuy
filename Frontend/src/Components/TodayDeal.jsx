@@ -2,10 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {
-    IoIosArrowForward,
-    IoIosArrowBack,
-} from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { AiFillTag } from "react-icons/ai";
 import HomeItems from './HomeItems';
 
@@ -24,7 +21,7 @@ const CustomPrevArrow = ({ onClick, show, hidden }) => {
                 color: "white",
                 padding: "10px",
                 borderRadius: "50%",
-                transition: "opacity 0.3s ease"
+                transition: "opacity 0.3s ease",
             }}
             onClick={onClick}
         >
@@ -48,7 +45,7 @@ const CustomNextArrow = ({ onClick, show, hidden }) => {
                 color: "white",
                 padding: "10px",
                 borderRadius: "50%",
-                transition: "opacity 0.3s ease"
+                transition: "opacity 0.3s ease",
             }}
             onClick={onClick}
         >
@@ -60,22 +57,18 @@ const CustomNextArrow = ({ onClick, show, hidden }) => {
 const TodayDeal = () => {
     const [todayDeal, setTodayDeal] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [totalSlides, setTotalSlides] = useState(0);
     const [hovered, setHovered] = useState(false);
 
     const sliderRef = useRef(null);
 
-    // Fetch today's deal data with caching mechanism
     useEffect(() => {
-        const cachedData = localStorage.getItem("todaysDeal");
+        const cachedData = localStorage.getItem('todaysDeal');
         const now = new Date().getTime();
 
         if (cachedData) {
             const { data, timestamp } = JSON.parse(cachedData);
-
-            // Check if 24 hours have passed since the data was cached
             if (now - timestamp < 24 * 60 * 60 * 1000) {
-                setTodayDeal(data); // Use the cached data if still valid
+                setTodayDeal(data);
                 return;
             }
         }
@@ -84,21 +77,10 @@ const TodayDeal = () => {
             .then((res) => res.json())
             .then((data) => {
                 setTodayDeal(data);
-                localStorage.setItem(
-                    "todaysDeal",
-                    JSON.stringify({ data, timestamp: now })
-                );
+                localStorage.setItem('todaysDeal', JSON.stringify({ data, timestamp: now }));
             });
     }, []);
 
-    useEffect(() => {
-        if (todayDeal.length > 0) {
-            const slideCount = todayDeal.length;
-            setTotalSlides(slideCount); // Set the total number of slides directly from the data
-        }
-    }, [todayDeal]);
-
-    // Slider settings
     const settings = {
         infinite: false,
         dots: false,
@@ -108,7 +90,7 @@ const TodayDeal = () => {
         arrows: true,
         afterChange: (index) => setCurrentSlide(index),
         nextArrow: (
-            <CustomNextArrow show={hovered} hidden={currentSlide >= totalSlides - 5} />
+            <CustomNextArrow show={hovered} hidden={currentSlide >= todayDeal.length - 5} />
         ),
         prevArrow: (
             <CustomPrevArrow show={hovered} hidden={currentSlide === 0} />
@@ -122,25 +104,28 @@ const TodayDeal = () => {
     };
 
     return (
-        <div
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-        >
+        <div>
             <div className="flex items-center justify-between bg-red-500 text-white md:px-10 px-3 py-4 md:text-[25px] text-[20px] font-semibold">
                 <div className="flex items-center gap-1">
                     <AiFillTag className="md:text-[30px] text-[20px] text-orange-500" />
                     <p>Today's Deal</p>
                 </div>
                 <p className="flex gap-1 items-center cursor-pointer">
-                    <span className='text-[13px]'>VIEW MORE</span>
+                    <span className="text-[13px]">VIEW MORE</span>
                     <span>
-                        <IoIosArrowForward className='mt-[2px] text-[15px]' />
+                        <IoIosArrowForward className="mt-[2px] text-[15px]" />
                     </span>
                 </p>
             </div>
-
-            <div>
-                <Slider ref={sliderRef} {...settings}>
+            <div
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+            >
+                <Slider
+                    key={todayDeal.length}
+                    ref={sliderRef}
+                    {...settings}
+                >
                     {todayDeal.map((item, i) => (
                         <HomeItems
                             key={i}

@@ -2,14 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {
-    IoIosArrowForward,
-    IoIosArrowBack,
-} from "react-icons/io";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import HomeItems from './HomeItems';
 
 const CustomPrevArrow = ({ onClick, show, hidden }) => {
-    if (show === false) return null
+    if (show === false) return null;
     return (
         <div
             style={{
@@ -23,7 +20,7 @@ const CustomPrevArrow = ({ onClick, show, hidden }) => {
                 color: "white",
                 padding: "10px",
                 borderRadius: "50%",
-                transition: "opacity 0.3s ease"
+                transition: "opacity 0.3s ease",
             }}
             onClick={onClick}
         >
@@ -33,7 +30,7 @@ const CustomPrevArrow = ({ onClick, show, hidden }) => {
 };
 
 const CustomNextArrow = ({ onClick, show, hidden }) => {
-    if (show === false) return null
+    if (show === false) return null;
     return (
         <div
             style={{
@@ -47,7 +44,7 @@ const CustomNextArrow = ({ onClick, show, hidden }) => {
                 color: "white",
                 padding: "10px",
                 borderRadius: "50%",
-                transition: "opacity 0.3s ease"
+                transition: "opacity 0.3s ease",
             }}
             onClick={onClick}
         >
@@ -57,25 +54,21 @@ const CustomNextArrow = ({ onClick, show, hidden }) => {
 };
 
 const Recommended = () => {
-    const [recommend, setRecommend] = useState([])
+    const [recommend, setRecommend] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [totalSlides, setTotalSlides] = useState(0);
-
     const [hovered, setHovered] = useState(false);
-
 
     const sliderRef = useRef(null);
 
     useEffect(() => {
-        const cachedData = localStorage.getItem('recommendedItems')
+        const cachedData = localStorage.getItem('recommendedItems');
         const now = new Date().getTime();
 
         if (cachedData) {
             const { data, timestamp } = JSON.parse(cachedData);
 
-            // Check if 24 hours have passed since the data was cached
             if (now - timestamp < 24 * 60 * 60 * 1000) {
-                setRecommend(data); // Use the cached data if still valid
+                setRecommend(data);
                 return;
             }
         }
@@ -83,20 +76,13 @@ const Recommended = () => {
         fetch(`${process.env.REACT_APP_API_URL}/product/reommendedHome`)
             .then((res) => res.json())
             .then((data) => {
-                setRecommend(data)
+                setRecommend(data);
                 localStorage.setItem(
                     'recommendedItems',
-                    JSON.stringify({ data, timestamp: now }))
-            })
-    }, [])
-
-    useEffect(() => {
-        if (recommend.length > 0) {
-            const slideCount = recommend.length;
-            setTotalSlides(slideCount); // Set the total number of slides directly from the data
-        }
-    }, [recommend]);
-
+                    JSON.stringify({ data, timestamp: now })
+                );
+            });
+    }, []);
 
     const settings = {
         infinite: false,
@@ -107,27 +93,33 @@ const Recommended = () => {
         arrows: true,
         afterChange: (index) => setCurrentSlide(index),
         nextArrow: (
-            <CustomNextArrow show={hovered} hidden={currentSlide >= totalSlides - 5} />
+            <CustomNextArrow
+                show={hovered}
+                hidden={currentSlide >= Math.max(0, recommend.length - 5)}
+            />
         ),
         prevArrow: (
-            <CustomPrevArrow show={hovered} hidden={currentSlide === 0} />
+            <CustomPrevArrow
+                show={hovered}
+                hidden={currentSlide === 0}
+            />
         ),
         responsive: [
             { breakpoint: 1150, settings: { slidesToShow: 4, slidesToScroll: 2 } },
             { breakpoint: 910, settings: { slidesToShow: 3, slidesToScroll: 2 } },
             { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 1 } },
             { breakpoint: 450, settings: { slidesToShow: 1, slidesToScroll: 1 } },
-        ]
+        ],
     };
 
     return (
         <div>
             <div className="flex items-center justify-between bg-black text-white md:px-10 px-3 py-4 md:text-[25px] text-[20px] font-semibold">
-                <p className='text-[17px] sm:text-[19px]'>Recommended For You</p>
+                <p className="text-[17px] sm:text-[19px]">Recommended For You</p>
                 <p className="flex gap-1 items-center cursor-pointer">
-                    <span className='text-[13px]'>VIEW MORE</span>
+                    <span className="text-[13px]">VIEW MORE</span>
                     <span>
-                        <IoIosArrowForward className='mt-[2px] text-[15px]' />
+                        <IoIosArrowForward className="mt-[2px] text-[15px]" />
                     </span>
                 </p>
             </div>
@@ -135,7 +127,11 @@ const Recommended = () => {
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
             >
-                <Slider ref={sliderRef} {...settings}>
+                <Slider
+                    key={recommend.length} // Forces reinitialization when data changes
+                    ref={sliderRef}
+                    {...settings}
+                >
                     {recommend.map((item, i) => (
                         <HomeItems
                             key={i}
@@ -150,7 +146,7 @@ const Recommended = () => {
                 </Slider>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Recommended
+export default Recommended;

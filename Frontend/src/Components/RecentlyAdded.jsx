@@ -57,29 +57,17 @@ const CustomNextArrow = ({ onClick, show, hidden }) => {
 };
 
 const RecentlyAdded = () => {
-    const [recentlyAdded, setRecentlyAdded] = useState([])
+    const [recentlyAdded, setRecentlyAdded] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [totalSlides, setTotalSlides] = useState(0);
-
     const [hovered, setHovered] = useState(false);
-
 
     const sliderRef = useRef(null);
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/product/recentlyAddedHome`)
             .then((res) => res.json())
-            .then((data) => {
-                setRecentlyAdded(data)
-            })
-    }, [])
-
-    useEffect(() => {
-        if (recentlyAdded.length > 0) {
-            const slideCount = recentlyAdded.length;
-            setTotalSlides(slideCount); // Set the total number of slides directly from the data
-        }
-    }, [recentlyAdded]);
+            .then((data) => setRecentlyAdded(data));
+    }, []);
 
     const settings = {
         infinite: false,
@@ -90,7 +78,7 @@ const RecentlyAdded = () => {
         arrows: true,
         afterChange: (index) => setCurrentSlide(index),
         nextArrow: (
-            <CustomNextArrow show={hovered} hidden={currentSlide >= totalSlides - 5} />
+            <CustomNextArrow show={hovered} hidden={currentSlide >= recentlyAdded.length - 5} />
         ),
         prevArrow: (
             <CustomPrevArrow show={hovered} hidden={currentSlide === 0} />
@@ -108,9 +96,9 @@ const RecentlyAdded = () => {
             <div className="flex items-center justify-between bg-black text-white md:px-10 px-3 py-4 md:text-[25px] text-[20px] font-semibold">
                 <p>Recently Added</p>
                 <p className="flex gap-1 items-center cursor-pointer">
-                    <span className='text-[13px]'>VIEW MORE</span>
+                    <span className="text-[13px]">VIEW MORE</span>
                     <span>
-                        <IoIosArrowForward className='mt-[2px] text-[15px]' />
+                        <IoIosArrowForward className="mt-[2px] text-[15px]" />
                     </span>
                 </p>
             </div>
@@ -118,7 +106,11 @@ const RecentlyAdded = () => {
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
             >
-                <Slider ref={sliderRef} {...settings}>
+                <Slider
+                    key={recentlyAdded.length}
+                    ref={sliderRef}
+                    {...settings}
+                >
                     {recentlyAdded.map((item, i) => (
                         <HomeItems
                             key={i}
@@ -133,7 +125,7 @@ const RecentlyAdded = () => {
                 </Slider>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default RecentlyAdded
+export default RecentlyAdded;
