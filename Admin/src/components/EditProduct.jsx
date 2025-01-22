@@ -61,6 +61,7 @@ const EditProduct = () => {
 
     const Edit_Product = async () => {
         const id = localStorage.getItem('ProductID'); // Retrieve product ID from localStorage
+        localStorage.setItem('Image_URL', product.Image)
         let product = { ...formData, id }; // Include the ID in the payload
         let responseData = {};
 
