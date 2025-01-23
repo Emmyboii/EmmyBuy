@@ -40,6 +40,7 @@ const ProductList = () => {
             const result = await response.json();
 
             if (result.success) {
+                alert("Product Deleted Successfully");
                 // Fetch the updated product list
                 const updatedProducts = await fetch(`${import.meta.env.VITE_API_URL}/product/allproduct`);
                 const data = await updatedProducts.json();
@@ -48,9 +49,11 @@ const ProductList = () => {
                 setProductToRemove(null);
             } else {
                 console.error('Failed to delete product');
+                alert("Failed to delete product");
             }
         } catch (error) {
             console.error('Error deleting product:', error);
+            alert("Failed to delete product");
         } finally {
             window.location.replace('/productlist')
         }
