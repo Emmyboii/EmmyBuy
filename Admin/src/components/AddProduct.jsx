@@ -3,6 +3,7 @@ import upload_area from '../assets/upload_area.svg';
 
 const AddProduct = () => {
     const [image, setImage] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         Name: "",
         Brand: "",
@@ -40,6 +41,7 @@ const AddProduct = () => {
         let responseData;
         const product = { ...formData };
         const productData = new FormData();
+        setIsSubmitting(true)
 
         productData.append("product", image);
 
@@ -71,17 +73,20 @@ const AddProduct = () => {
                 });
 
                 const result = await addProductResponse.json();
-
                 if (result.success) {
                     alert("Product Added Successfully");
+                    setIsSubmitting(false)
                 } else {
                     alert("Failed to Add Product");
+                    setIsSubmitting(false)
                 }
             } else {
                 alert("Failed to Upload Image");
+                setIsSubmitting(false)
             }
         } catch (error) {
             console.error("Error adding product:", error);
+            setIsSubmitting(false)
         } finally {
             setImage(null);
             setFormData({
@@ -229,9 +234,18 @@ const AddProduct = () => {
             {/* Submit Button */}
             <button
                 onClick={Add_Product}
-                className="bg-blue-700 text-white w-[160px] h-[50px] rounded-lg mt-4 flex flex-col items-center justify-center"
+                className="bg-blue-700 text-white w-[160px] h-[50px] rounded-lg mt-4 flex flex-col items-center justify-center button-transition"
+                disabled={isSubmitting}
             >
-                Add
+                {isSubmitting ? (
+                    <div>
+                        <div className='flex items-center justify-center'>
+                            <div className='w-5 h-5 border-4 border-l-white rounded-[50%] mr-[8px] animate-spin'></div> Logging In...
+                        </div>
+                    </div>
+                ) : (
+                    'Add Product'
+                )}
             </button>
         </div>
     );

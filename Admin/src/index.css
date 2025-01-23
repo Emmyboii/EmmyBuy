@@ -9,3 +9,8 @@ body {
   background-color: gray;
   height: 100vh;
 }
+
+.button-transition:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}

@@ -5,6 +5,7 @@ const EditProduct = () => {
 
 
     const [image, setImage] = useState(null)
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         Name: "",
         New_price: "",
@@ -63,6 +64,7 @@ const EditProduct = () => {
         const id = localStorage.getItem('ProductID'); // Retrieve product ID from localStorage
         let product = { ...formData, id }; // Include the ID in the payload
         let responseData = {};
+        setIsSubmitting(true)
 
         try {
             // If a new image is uploaded
@@ -96,16 +98,18 @@ const EditProduct = () => {
                 },
                 body: JSON.stringify(product),
             });
-
             const updateData = await updateResponse.json();
             if (updateData.success) {
                 alert('Product Updated Successfully');
+                setIsSubmitting(false)
             } else {
                 alert('Failed to Update Product');
+                setIsSubmitting(false)
             }
         } catch (error) {
             console.error('Error updating product:', error);
             alert('An error occurred while updating the product.');
+            setIsSubmitting(false)
         } finally {
             setImage(null);
             setFormData({
@@ -150,7 +154,21 @@ const EditProduct = () => {
                     <input value={formData.Items_left} onChange={handleChange} className="h-[50px] w-[70px] pl-[15px] box-border border-2 border-[#c3c3c3] outline-0 rounded text-[18px]" type="number" name="Items_left" />
                 </div>
             </div>
-            <button onClick={Edit_Product} className="bg-blue-700 text-white w-[160px] h-[50px] rounded-lg mt-4 flex flex-col items-center justify-center">Edit</button>
+            <button
+                onClick={Edit_Product}
+                className="bg-blue-700 text-white w-[160px] h-[50px] rounded-lg mt-4 flex flex-col items-center justify-center button-transition"
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? (
+                    <div>
+                        <div className='flex items-center justify-center'>
+                            <div className='w-5 h-5 border-4 border-l-white rounded-[50%] mr-[8px] animate-spin'></div> Logging In...
+                        </div>
+                    </div>
+                ) : (
+                    'Edit Product'
+                )}
+            </button>
         </div>
     )
 }
