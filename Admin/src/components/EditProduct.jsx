@@ -162,7 +162,7 @@ const EditProduct = () => {
                 {isSubmitting ? (
                     <div>
                         <div className='flex items-center justify-center'>
-                            <div className='w-5 h-5 border-4 border-l-white rounded-[50%] mr-[8px] animate-spin'></div> Editing Product...
+                            <div className='w-5 h-5 border-4 border-l-white rounded-[50%] mr-[8px] animate-spin'></div> Editing...
                         </div>
                     </div>
                 ) : (
