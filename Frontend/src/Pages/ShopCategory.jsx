@@ -24,6 +24,13 @@ const ShopCategory = (props) => {
         if (savedSubCategory) {
             setSelectedSubCategory(savedSubCategory);
         }
+
+        return () => {
+            // Clean up localStorage when the component unmounts or user navigates away
+            localStorage.removeItem('selectedBrand');
+            localStorage.removeItem('selectedSubCategory');
+        };
+
     }, [setSelectedBrand, setSelectedSubCategory]);
 
     useEffect(() => {
