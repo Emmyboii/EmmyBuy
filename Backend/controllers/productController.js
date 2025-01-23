@@ -33,26 +33,20 @@ const addProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-    try {
-        const { id } = req.body;
+    const product = await Product.findOneAndDelete({ id: req.body.id });
 
-        // Delete the product
-        await Product.findByIdAndDelete(id);
-
-        // Re-fetch all products and sort by ID
-        const products = await Product.find().sort({ id: 1 });
-
-        // Reassign sequential IDs
-        for (let i = 0; i < products.length; i++) {
-            products[i].id = i + 1;
-            await products[i].save(); // Save the updated product
-        }
-
-        res.status(200).json({ success: 1, message: 'Product deleted and IDs updated' });
-    } catch (error) {
-        console.error('Error deleting product:', error);
-        res.status(500).json({ success: 0, message: 'Failed to delete product' });
+    if (!product) {
+        return res.status(404).json({ success: 0, message: 'Product not found' });
     }
+
+    const products = await Product.find().sort({ id: 1 });
+
+    // Reassign sequential IDs
+    for (let i = 0; i < products.length; i++) {
+        products[i].id = i + 1;
+        await products[i].save(); // Save the updated product ID
+    }
+    res.json(products);
 };
 
 const updateProduct = async (req, res) => {
