@@ -46,6 +46,7 @@ const ProductList = () => {
 
                 setProduct(data); // Update the product list in the state
                 setProductToRemove(null);
+                window.location.replace('/productlist')
             } else {
                 console.error('Failed to delete product');
             }
