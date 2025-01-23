@@ -46,7 +46,7 @@ const deleteProduct = async (req, res) => {
         products[i].id = i + 1;
         await products[i].save(); // Save the updated product ID
     }
-    res.json(products);
+    res.json({ success: 1, products });
 };
 
 const updateProduct = async (req, res) => {
