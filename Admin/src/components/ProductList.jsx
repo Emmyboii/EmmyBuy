@@ -34,7 +34,7 @@ const ProductList = () => {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id }),
+                body: JSON.stringify({ id: id }),
             });
 
             const result = await response.json();
