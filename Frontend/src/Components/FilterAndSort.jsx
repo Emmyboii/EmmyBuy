@@ -208,7 +208,7 @@ const FilterAndSort = (props) => {
                     })}
                 </div>
 
-                <button className='absolute bottom-10 left-[25%] right-[25%] text-white text-[20px] p-3 rounded-lg bg-red-500' onClick={onClickCategoryMenu1}>Apply Filter</button>
+                <button className='absolute bottom-14 left-[25%] right-[25%] text-white text-[20px] p-3 rounded-lg bg-red-500' onClick={onClickCategoryMenu1}>Apply Filter</button>
             </div>
 
             {/* Category Sidebar 2 */}
@@ -252,7 +252,7 @@ const FilterAndSort = (props) => {
                     </div>
                 </div>
 
-                <button className='absolute bottom-10 left-[25%] right-[25%] text-white text-[20px] p-3 rounded-lg bg-red-500' onClick={onClickCategoryMenu2}>Apply</button>
+                <button className='absolute bottom-14 left-[25%] right-[25%] text-white text-[20px] p-3 rounded-lg bg-red-500' onClick={onClickCategoryMenu2}>Apply</button>
             </div>
         </>
     );
