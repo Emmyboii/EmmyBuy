@@ -40,7 +40,6 @@ const AddProduct = () => {
         let responseData;
         const product = { ...formData };
         const productData = new FormData();
-        localStorage.setItem('Image_URL', product.Image)
         setIsSubmitting(true)
 
         productData.append("product", image);
