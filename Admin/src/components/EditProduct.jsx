@@ -120,6 +120,7 @@ const EditProduct = () => {
                 Items_left: "",
             });
             window.location.replace('/productlist')
+            localStorage.removeItem('ProductID')
         }
     };
 
