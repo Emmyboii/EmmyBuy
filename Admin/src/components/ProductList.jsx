@@ -25,18 +25,33 @@ const ProductList = () => {
 
     // Remove product by ID
     const remove_product = async (id) => {
-        await fetch(`${import.meta.env.VITE_API_URL}/product/deleteProduct`, {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: id }),
-        });
-        // Reload the product list after deletion
-        setProduct(product.filter((item) => item.id !== id));
-        setProductToRemove(null); // Close modal
+        try {
+            // Send DELETE request to the backend
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/product/deleteProduct`, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id }),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Fetch the updated product list
+                const updatedProducts = await fetch(`${import.meta.env.VITE_API_URL}/product/allproduct`);
+                const data = await updatedProducts.json();
+
+                setProduct(data); // Update the product list in the state
+                setProductToRemove(null);
+            } else {
+                console.error('Failed to delete product');
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
     };
 
     // Open the modal for a specific product
